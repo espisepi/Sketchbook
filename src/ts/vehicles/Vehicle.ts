@@ -340,7 +340,7 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity
 
 			this.materials.forEach((mat) =>
 			{
-				world.sky.csm.setupMaterial(mat);
+				// world.sky.csm.setupMaterial(mat);
 			});
 		}
 	}

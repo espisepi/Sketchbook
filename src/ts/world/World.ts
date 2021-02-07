@@ -32,6 +32,13 @@ import { Scenario } from './Scenario';
 import { Sky } from './Sky';
 import { Ocean } from './Ocean';
 
+import { CreateWorld } from '../../drei-espinaco/CreateWorld';
+
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+import { create as createManagerNipple } from 'nipplejs';
+import { ThirdPersonCamera } from './ThirdPersonCamera';
+
 export class World
 {
 	public renderer: THREE.WebGLRenderer;
@@ -64,6 +71,8 @@ export class World
 	public scenarioGUIFolder: any;
 	public updatables: IUpdatable[] = [];
 
+	public thirdPersonCamera: ThirdPersonCamera;
+
 	private lastScenarioID: string;
 
 	constructor(worldScenePath?: any)
@@ -93,6 +102,8 @@ export class World
 		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 		this.generateHTML();
+		this.createNipple();
+		this.createButtons();
 
 		// Auto window resize
 		function onWindowResize(): void
@@ -101,7 +112,7 @@ export class World
 			scope.camera.updateProjectionMatrix();
 			scope.renderer.setSize(window.innerWidth, window.innerHeight);
 			fxaaPass.uniforms['resolution'].value.set(1 / (window.innerWidth * pixelRatio), 1 / (window.innerHeight * pixelRatio));
-			scope.composer.setSize(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio);
+			// scope.composer.setSize(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio);
 		}
 		window.addEventListener('resize', onWindowResize, false);
 
@@ -119,9 +130,9 @@ export class World
 		fxaaPass.material['uniforms'].resolution.value.y = 1 / ( window.innerHeight * pixelRatio );
 
 		// Composer
-		this.composer = new EffectComposer( this.renderer );
-		this.composer.addPass( renderPass );
-		this.composer.addPass( fxaaPass );
+		// this.composer = new EffectComposer( this.renderer );
+		// this.composer.addPass( renderPass );
+		// this.composer.addPass( fxaaPass );
 
 		// Physics
 		this.physicsWorld = new CANNON.World();
@@ -150,7 +161,7 @@ export class World
 		// Initialization
 		this.inputManager = new InputManager(this, this.renderer.domElement);
 		this.cameraOperator = new CameraOperator(this, this.camera, this.params.Mouse_Sensitivity);
-		this.sky = new Sky(this);
+		// this.sky = new Sky(this);
 		
 		// Load scene if path is supplied
 		if (worldScenePath !== undefined)
@@ -209,6 +220,14 @@ export class World
 
 		// Physics debug
 		if (this.params.Debug_Physics) this.cannonDebugRenderer.update();
+
+		//espisepi: add thirdpersonCamera to Character
+		if(!this.thirdPersonCamera && this.characters[0]){
+			this.thirdPersonCamera = new ThirdPersonCamera(this.characters[0],this.camera);
+		}
+		if(this.thirdPersonCamera){
+			this.thirdPersonCamera.Update(timeStep,0);
+		}
 	}
 
 	public updatePhysics(timeStep: number): void
@@ -293,8 +312,9 @@ export class World
 		this.stats.begin();
 
 		// Actual rendering with a FXAA ON/OFF switch
-		if (this.params.FXAA) this.composer.render();
-		else this.renderer.render(this.graphicsWorld, this.camera);
+		// if (this.params.FXAA) this.composer.render();
+		// else this.renderer.render(this.graphicsWorld, this.camera);
+		this.renderer.render(this.graphicsWorld, this.camera);
 
 		// Measuring render time
 		this.renderDelta = this.clock.getDelta();
@@ -331,54 +351,107 @@ export class World
 
 	public loadScene(loadingManager: LoadingManager, gltf: any): void
 	{
+		/* espisepi code */
+		// const createWorld = new CreateWorld(this);
+		const mesh = new THREE.Mesh(
+            new THREE.BoxBufferGeometry(1,1,1),
+            new THREE.MeshBasicMaterial({color:'red', wireframe:true})
+        );
+		mesh.position.set(0,0,0);
+		mesh.scale.set(5000,1,5000);
+		mesh.updateMatrix();
+		this.graphicsWorld.add(mesh);
+		const phys = new BoxCollider({size: new THREE.Vector3(mesh.scale.x, mesh.scale.y, mesh.scale.z)});
+        phys.body.position.copy(Utils.cannonVector(mesh.position));
+        phys.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
+		phys.body.computeAABB();
+		phys.body.shapes.forEach((shape) => {
+			shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
+		});
+        this.physicsWorld.addBody(phys.body);
+
+		const ambientLight = new THREE.AmbientLight();
+		this.graphicsWorld.add(ambientLight);
+		
+		const loader = new GLTFLoader();
+		loader.load('build/assets/pla.glb',(gltf)=>{
+			const scene = gltf.scene;
+			scene.scale.set(1,1,1);
+			scene.position.set(0,0,0);
+			this.graphicsWorld.add(scene);
+			console.log(scene);
+		});
+		// const loader = new GLTFLoader();
+		// loader.load('build/assets/catedral.glb',(gltf)=>{
+		// 	const scene = gltf.scene;
+		// 	scene.scale.set(1,1,1);
+		// 	scene.position.set(0,-32.0,0);
+		// 	this.graphicsWorld.add(scene);
+		// 	console.log(scene);
+		// });
+		// loader.load('build/assets/parqueflores.glb',(gltf)=>{
+		// 	const scene = gltf.scene;
+		// 	scene.scale.set(1,1,1);
+		// 	scene.position.set(0,-0.5,0);
+		// 	this.graphicsWorld.add(scene);
+		// 	console.log(scene);
+		// });
+		// loader.load('build/assets/jaguar.glb',(gltf)=>{
+		// 	const scene = gltf.scene;
+		// 	scene.scale.set(1,1,1);
+		// 	scene.position.set(50,-0.5,-100);
+		// 	this.graphicsWorld.add(scene);
+		// 	console.log(scene);
+		// });
+
 		gltf.scene.traverse((child) => {
 			if (child.hasOwnProperty('userData'))
 			{
-				if (child.type === 'Mesh')
-				{
-					Utils.setupMeshProperties(child);
-					this.sky.csm.setupMaterial(child.material);
+				// if (child.type === 'Mesh')
+				// {
+				// 	Utils.setupMeshProperties(child);
+				// 	this.sky.csm.setupMaterial(child.material);
 
-					if (child.material.name === 'ocean')
-					{
-						this.registerUpdatable(new Ocean(child, this));
-					}
-				}
+				// 	if (child.material.name === 'ocean')
+				// 	{
+				// 		this.registerUpdatable(new Ocean(child, this));
+				// 	}
+				// }
 
 				if (child.userData.hasOwnProperty('data'))
 				{
-					if (child.userData.data === 'physics')
-					{
-						if (child.userData.hasOwnProperty('type')) 
-						{
-							// Convex doesn't work! Stick to boxes!
-							if (child.userData.type === 'box')
-							{
-								let phys = new BoxCollider({size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z)});
-								phys.body.position.copy(Utils.cannonVector(child.position));
-								phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
-								phys.body.computeAABB();
+					// if (child.userData.data === 'physics')
+					// {
+					// 	if (child.userData.hasOwnProperty('type')) 
+					// 	{
+					// 		// Convex doesn't work! Stick to boxes!
+					// 		if (child.userData.type === 'box')
+					// 		{
+					// 			let phys = new BoxCollider({size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z)});
+					// 			phys.body.position.copy(Utils.cannonVector(child.position));
+					// 			phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
+					// 			phys.body.computeAABB();
 
-								phys.body.shapes.forEach((shape) => {
-									shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
-								});
+					// 			phys.body.shapes.forEach((shape) => {
+					// 				shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
+					// 			});
 
-								this.physicsWorld.addBody(phys.body);
-							}
-							else if (child.userData.type === 'trimesh')
-							{
-								let phys = new TrimeshCollider(child, {});
-								this.physicsWorld.addBody(phys.body);
-							}
+					// 			this.physicsWorld.addBody(phys.body);
+					// 		}
+					// 		else if (child.userData.type === 'trimesh')
+					// 		{
+					// 			let phys = new TrimeshCollider(child, {});
+					// 			this.physicsWorld.addBody(phys.body);
+					// 		}
 
-							child.visible = false;
-						}
-					}
+					// 		child.visible = false;
+					// 	}
+					// }
 
-					if (child.userData.data === 'path')
-					{
-						this.paths.push(new Path(child));
-					}
+				// 	if (child.userData.data === 'path')
+				// 	{
+				// 		this.paths.push(new Path(child));
+				// 	}
 
 					if (child.userData.data === 'scenario')
 					{
@@ -388,7 +461,11 @@ export class World
 			}
 		});
 
+		gltf.scene.visible = false;
 		this.graphicsWorld.add(gltf.scene);
+		gltf.scene.traverse((child) => {
+			// console.log(child)
+		});
 
 		// Launch default scenario
 		let defaultScenarioID: string;
@@ -478,6 +555,86 @@ export class World
 		});
 
 		document.getElementById('controls').innerHTML = html;
+	}
+
+	private createButtons(): void 
+	{
+		const div = document.createElement('div');
+		div.style.width='100px';
+		div.style.height='100px';
+		div.style.position='absolute';
+		div.style.backgroundColor='red';
+		div.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
+		});
+		document.body.appendChild(div);
+	}
+
+	private createNipple(): void 
+	{
+		const div = document.createElement('div');
+		div.style.width='100vw';
+		div.style.height='100vh';
+		div.style.position='absolute';
+		document.body.appendChild(div);
+		// document.getElementById('canvas').style.position = 'absolute';
+		this.renderer.domElement.style.position = 'absolute';
+		const options = {
+			zone: div,
+			color: 'blue',
+			multitouch: true
+		};
+		const joystick = createManagerNipple(options);
+		this.bindNipple(joystick);
+	}
+
+	private bindNipple(joystick: any): void
+	{
+
+		const handleJoystick = (evt:any, data:any) => {
+			this.handleJoystick(evt,data);
+		}
+
+		joystick.on('start end', function(evt, data) {
+			handleJoystick(evt,data);
+		  }).on('move', function(evt, data) {
+			handleJoystick(evt,data);
+		  }).on('dir:up plain:up dir:left plain:left dir:down ' +
+				'plain:down dir:right plain:right',
+				function(evt, data) {
+			handleJoystick(evt,data);
+		  }
+			   ).on('pressure', function(evt, data) {
+			handleJoystick(evt,data);
+		  });
+	}
+
+	private handleJoystick(evt: any, data:any): void{
+		if (data?.direction?.y === 'up' && ( data?.angle?.degree >= 15.0 && data?.angle?.degree <= 165.0 ) ) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
+        } else {
+            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
+        }
+        if (data?.direction?.y === 'down' && ( data?.angle?.degree >= 195.0 && data?.angle?.degree <= 345.0 ) ) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
+        } else {
+            document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
+        }
+        if (data?.direction?.x === 'left' && ( data?.angle?.degree >= 135.0 && data?.angle?.degree <= 225.0 ) ) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
+        } else {
+            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
+        }
+        if (data?.direction?.x === 'right'  && ( data?.angle?.degree <= 45.0 || data?.angle?.degree >= 315.0 ) ) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
+        } else {
+            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
+        }
+        if (data?.force >= 1.0) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'shift', code: 'ShiftLeft' }));
+        } else {
+            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'shift', code: 'ShiftLeft' }));
+        }
 	}
 
 	private generateHTML(): void
@@ -571,15 +728,15 @@ export class World
 			{
 				if (enabled)
 				{
-					this.sky.csm.lights.forEach((light) => {
-						light.castShadow = true;
-					});
+					// this.sky.csm.lights.forEach((light) => {
+					// 	light.castShadow = true;
+					// });
 				}
 				else
 				{
-					this.sky.csm.lights.forEach((light) => {
-						light.castShadow = false;
-					});
+					// this.sky.csm.lights.forEach((light) => {
+					// 	light.castShadow = false;
+					// });
 				}
 			});
 		settingsFolder.add(this.params, 'Pointer_Lock')
