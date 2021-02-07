@@ -71,8 +71,6 @@ export class World
 	public scenarioGUIFolder: any;
 	public updatables: IUpdatable[] = [];
 
-	public thirdPersonCamera: ThirdPersonCamera;
-
 	private lastScenarioID: string;
 
 	constructor(worldScenePath?: any)
@@ -222,12 +220,17 @@ export class World
 		if (this.params.Debug_Physics) this.cannonDebugRenderer.update();
 
 		//espisepi: add thirdpersonCamera to Character
-		if(!this.thirdPersonCamera && this.characters[0]){
-			this.thirdPersonCamera = new ThirdPersonCamera(this.characters[0],this.camera);
+		if(this.cameraOperator.followMode === false){
+			// console.log(this.cameraOperator);
+			this.cameraOperator.followMode = true;
 		}
-		if(this.thirdPersonCamera){
-			this.thirdPersonCamera.Update(timeStep,0);
-		}
+		// if(!this.thirdPersonCamera && this.cameraOperator){
+		// 	this.thirdPersonCamera = new ThirdPersonCamera(this.cameraOperator);
+		// }
+		// if(this.thirdPersonCamera){
+		// 	this.thirdPersonCamera.Update(timeStep,0);
+		// }
+		// FIN espisepi: add thirdpersonCamera to Character
 	}
 
 	public updatePhysics(timeStep: number): void
