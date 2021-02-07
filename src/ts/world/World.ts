@@ -221,7 +221,6 @@ export class World
 
 		//espisepi: add thirdpersonCamera to Character
 		if(this.cameraOperator.followMode === false){
-			// console.log(this.cameraOperator);
 			this.cameraOperator.followMode = true;
 		}
 		// if(!this.thirdPersonCamera && this.cameraOperator){
@@ -562,6 +561,12 @@ export class World
 
 	private createButtons(): void 
 	{
+		this.createButtonF();
+		this.createButtonV();
+		
+	}
+
+	private createButtonF(){
 		const div = document.createElement('div');
 		div.style.width='100px';
 		div.style.height='100px';
@@ -569,6 +574,19 @@ export class World
 		div.style.backgroundColor='red';
 		div.addEventListener("pointerdown", (evt)=>{
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
+		});
+		document.body.appendChild(div);
+	}
+
+	private createButtonV(){
+		const div = document.createElement('div');
+		div.style.top = '100px';
+		div.style.width='100px';
+		div.style.height='100px';
+		div.style.position='absolute';
+		div.style.backgroundColor='blue';
+		div.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
 		});
 		document.body.appendChild(div);
 	}
