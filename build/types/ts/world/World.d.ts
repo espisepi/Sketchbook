@@ -13,7 +13,6 @@ import { Path } from './Path';
 import { Vehicle } from '../vehicles/Vehicle';
 import { Scenario } from './Scenario';
 import { Sky } from './Sky';
-import { ThirdPersonCamera } from './ThirdPersonCamera';
 export declare class World {
     renderer: THREE.WebGLRenderer;
     camera: THREE.PerspectiveCamera;
@@ -44,7 +43,6 @@ export declare class World {
     paths: Path[];
     scenarioGUIFolder: any;
     updatables: IUpdatable[];
-    thirdPersonCamera: ThirdPersonCamera;
     private lastScenarioID;
     constructor(worldScenePath?: any);
     update(timeStep: number, unscaledTimeStep: number): void;
@@ -70,6 +68,8 @@ export declare class World {
     scrollTheTimeScale(scrollAmount: number): void;
     updateControls(controls: any): void;
     private createButtons;
+    private createButtonF;
+    private createButtonV;
     private createNipple;
     private bindNipple;
     private handleJoystick;
