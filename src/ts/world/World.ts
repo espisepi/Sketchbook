@@ -235,22 +235,22 @@ export class World
 		// Step the physics world
 		this.physicsWorld.step(this.physicsFrameTime, timeStep);
 
-		this.characters.forEach((char) => {
-			if (this.isOutOfBounds(char.characterCapsule.body.position))
-			{
-				this.outOfBoundsRespawn(char.characterCapsule.body);
-			}
-		});
+		// this.characters.forEach((char) => {
+		// 	if (this.isOutOfBounds(char.characterCapsule.body.position))
+		// 	{
+		// 		this.outOfBoundsRespawn(char.characterCapsule.body);
+		// 	}
+		// });
 
-		this.vehicles.forEach((vehicle) => {
-			if (this.isOutOfBounds(vehicle.rayCastVehicle.chassisBody.position))
-			{
-				let worldPos = new THREE.Vector3();
-				vehicle.spawnPoint.getWorldPosition(worldPos);
-				worldPos.y += 1;
-				this.outOfBoundsRespawn(vehicle.rayCastVehicle.chassisBody, Utils.cannonVector(worldPos));
-			}
-		});
+		// this.vehicles.forEach((vehicle) => {
+		// 	if (this.isOutOfBounds(vehicle.rayCastVehicle.chassisBody.position))
+		// 	{
+		// 		let worldPos = new THREE.Vector3();
+		// 		vehicle.spawnPoint.getWorldPosition(worldPos);
+		// 		worldPos.y += 1;
+		// 		this.outOfBoundsRespawn(vehicle.rayCastVehicle.chassisBody, Utils.cannonVector(worldPos));
+		// 	}
+		// });
 	}
 
 	public isOutOfBounds(position: CANNON.Vec3): boolean
