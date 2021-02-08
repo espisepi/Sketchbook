@@ -32,7 +32,7 @@ import { Scenario } from './Scenario';
 import { Sky } from './Sky';
 import { Ocean } from './Ocean';
 
-import { CreateWorld } from '../../drei-espinaco/CreateWorld';
+import { CreateScenario } from '../../drei-espinaco/CreateScenario';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -354,7 +354,7 @@ export class World
 	public loadScene(loadingManager: LoadingManager, gltf: any): void
 	{
 		/* espisepi code */
-		// const createWorld = new CreateWorld(this);
+		// const createWorld = new CreateScenario(this);
 		const mesh = new THREE.Mesh(
             new THREE.BoxBufferGeometry(1,1,1),
             new THREE.MeshBasicMaterial({color:'red', wireframe:true})
@@ -422,38 +422,38 @@ export class World
 
 				if (child.userData.hasOwnProperty('data'))
 				{
-					// if (child.userData.data === 'physics')
-					// {
-					// 	if (child.userData.hasOwnProperty('type')) 
-					// 	{
-					// 		// Convex doesn't work! Stick to boxes!
-					// 		if (child.userData.type === 'box')
-					// 		{
-					// 			let phys = new BoxCollider({size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z)});
-					// 			phys.body.position.copy(Utils.cannonVector(child.position));
-					// 			phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
-					// 			phys.body.computeAABB();
+					if (child.userData.data === 'physics')
+					{
+						if (child.userData.hasOwnProperty('type')) 
+						{
+							// Convex doesn't work! Stick to boxes!
+							if (child.userData.type === 'box')
+							{
+								let phys = new BoxCollider({size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z)});
+								phys.body.position.copy(Utils.cannonVector(child.position));
+								phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
+								phys.body.computeAABB();
 
-					// 			phys.body.shapes.forEach((shape) => {
-					// 				shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
-					// 			});
+								phys.body.shapes.forEach((shape) => {
+									shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
+								});
 
-					// 			this.physicsWorld.addBody(phys.body);
-					// 		}
-					// 		else if (child.userData.type === 'trimesh')
-					// 		{
-					// 			let phys = new TrimeshCollider(child, {});
-					// 			this.physicsWorld.addBody(phys.body);
-					// 		}
+								this.physicsWorld.addBody(phys.body);
+							}
+							else if (child.userData.type === 'trimesh')
+							{
+								let phys = new TrimeshCollider(child, {});
+								this.physicsWorld.addBody(phys.body);
+							}
 
-					// 		child.visible = false;
-					// 	}
-					// }
+							child.visible = false;
+						}
+					}
 
-				// 	if (child.userData.data === 'path')
-				// 	{
-				// 		this.paths.push(new Path(child));
-				// 	}
+					if (child.userData.data === 'path')
+					{
+						this.paths.push(new Path(child));
+					}
 
 					if (child.userData.data === 'scenario')
 					{
@@ -463,11 +463,8 @@ export class World
 			}
 		});
 
-		gltf.scene.visible = false;
+		gltf.scene.visible = true;
 		this.graphicsWorld.add(gltf.scene);
-		gltf.scene.traverse((child) => {
-			// console.log(child)
-		});
 
 		// Launch default scenario
 		let defaultScenarioID: string;
