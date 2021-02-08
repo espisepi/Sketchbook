@@ -32,7 +32,7 @@ import { Scenario } from './Scenario';
 import { Sky } from './Sky';
 import { Ocean } from './Ocean';
 
-import { CreateScenario } from '../../drei-espinaco/CreateScenario';
+// import { CreateScenario } from '../../drei-espinaco/CreateScenario';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
