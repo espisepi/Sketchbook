@@ -89,7 +89,7 @@ export class CameraOperator implements IInputReceiver, IUpdatable
 	{
 		if (this.followMode === true)
 		{
-			this.camera.position.y = THREE.MathUtils.clamp(this.camera.position.y, this.target.y, Number.POSITIVE_INFINITY);
+			this.camera.position.y = THREE.MathUtils.clamp(this.camera.position.y, this.target.y + 0.5, Number.POSITIVE_INFINITY);
 			this.camera.lookAt(this.target);
 			let newPos = this.target.clone().add(new THREE.Vector3().subVectors(this.camera.position, this.target).normalize().multiplyScalar(this.targetRadius));
 			this.camera.position.x = newPos.x;
