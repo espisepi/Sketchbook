@@ -39,6 +39,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { create as createManagerNipple } from 'nipplejs';
 import { ThirdPersonCamera } from './ThirdPersonCamera';
 
+//TODO: Carrera con escenario catedral, se cambia texturas por texturavideo de cancion naugthy swain a elena con efectos rosa shader
+/** TAREAS POR HACER
+ * Mostrar UI para comenzar carrera (ya estaba escrito por el autor original)
+ * Crear escenario catedral con sus physics collider y el path finder para carreras de IA
+ * Importar escenario en proyecto threejs y comprobar que todo funcione
+ * Crear UI para comienzo de la aplicación y opciones: comenzar carrera, modo libre. (El modo libre quita la pantalla y empieza el juego tal y como está ahora por defecto y comenzar carrera simula como si se hubiese pulsado la opción de empezar carrera de la manera en la que estaba originalmente el proyecto)
+ * Crear carrera con catedral y carrera con naughty swain
+ * Crear Interfaz visual UI para pulsar los botones con el movil
+ */
 export class World
 {
 	public renderer: THREE.WebGLRenderer;
@@ -376,13 +385,13 @@ export class World
 		this.graphicsWorld.add(ambientLight);
 		
 		const loader = new GLTFLoader();
-		loader.load('build/assets/pla.glb',(gltf)=>{
-			const scene = gltf.scene;
-			scene.scale.set(1,1,1);
-			scene.position.set(0,0,0);
-			this.graphicsWorld.add(scene);
-			console.log(scene);
-		});
+		// loader.load('build/assets/pla.glb',(gltf)=>{
+		// 	const scene = gltf.scene;
+		// 	scene.scale.set(1,1,1);
+		// 	scene.position.set(0,0,0);
+		// 	this.graphicsWorld.add(scene);
+		// 	console.log(scene);
+		// });
 		// const loader = new GLTFLoader();
 		// loader.load('build/assets/catedral.glb',(gltf)=>{
 		// 	const scene = gltf.scene;
