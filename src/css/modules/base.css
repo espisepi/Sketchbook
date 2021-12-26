@@ -29,4 +29,5 @@ h1 {
 	position: absolute;
 	top: 0;
     height: 100vh;
+    z-index: 500;
 }

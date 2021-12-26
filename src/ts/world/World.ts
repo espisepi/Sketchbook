@@ -47,6 +47,7 @@ import { ThirdPersonCamera } from './ThirdPersonCamera';
  * Crear UI para comienzo de la aplicación y opciones: comenzar carrera, modo libre. (El modo libre quita la pantalla y empieza el juego tal y como está ahora por defecto y comenzar carrera simula como si se hubiese pulsado la opción de empezar carrera de la manera en la que estaba originalmente el proyecto)
  * Crear carrera con catedral y carrera con naughty swain
  * Crear Interfaz visual UI para pulsar los botones con el movil
+ * Que se pueda jugar a la gba dentro del juego
  */
 export class World
 {
@@ -364,22 +365,23 @@ export class World
 	{
 		/* espisepi code */
 		// const createWorld = new CreateScenario(this);
-		const mesh = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(1,1,1),
-            new THREE.MeshBasicMaterial({color:'red', wireframe:true})
-        );
-		mesh.position.set(0,0,0);
-		mesh.scale.set(5000,1,5000);
-		mesh.updateMatrix();
-		this.graphicsWorld.add(mesh);
-		const phys = new BoxCollider({size: new THREE.Vector3(mesh.scale.x, mesh.scale.y, mesh.scale.z)});
-        phys.body.position.copy(Utils.cannonVector(mesh.position));
-        phys.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
-		phys.body.computeAABB();
-		phys.body.shapes.forEach((shape) => {
-			shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
-		});
-        this.physicsWorld.addBody(phys.body);
+		// Create plane mesh physics
+		// const mesh = new THREE.Mesh(
+        //     new THREE.BoxBufferGeometry(1,1,1),
+        //     new THREE.MeshBasicMaterial({color:'red', wireframe:true})
+        // );
+		// mesh.position.set(0,0,0);
+		// mesh.scale.set(5000,1,5000);
+		// mesh.updateMatrix();
+		// this.graphicsWorld.add(mesh);
+		// const phys = new BoxCollider({size: new THREE.Vector3(mesh.scale.x, mesh.scale.y, mesh.scale.z)});
+        // phys.body.position.copy(Utils.cannonVector(mesh.position));
+        // phys.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
+		// phys.body.computeAABB();
+		// phys.body.shapes.forEach((shape) => {
+		// 	shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
+		// });
+        // this.physicsWorld.addBody(phys.body);
 
 		const ambientLight = new THREE.AmbientLight();
 		this.graphicsWorld.add(ambientLight);
