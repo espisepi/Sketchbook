@@ -3,6 +3,7 @@ import { IInputReceiver } from '../interfaces/IInputReceiver';
 import { EntityType } from '../enums/EntityType';
 import { IUpdatable } from '../interfaces/IUpdatable';
 
+// TODO: Lanzar eventos cuando se pase de control de avion, coche, persona y al recoger el evento se modifica la UI html,css (hidden, visible)
 export class InputManager implements IUpdatable
 {
 	public updateOrder: number = 3;
