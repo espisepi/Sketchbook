@@ -1,0 +1,14 @@
+
+.click-start-panel {
+    width: 100vw;
+    height: 100vh;
+    background-color: #2cabbc;
+}
+
+.click-start-btn {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    left: 50%;
+    top: 50%;
+}

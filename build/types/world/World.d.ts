@@ -13,6 +13,15 @@ import { Path } from './Path';
 import { Vehicle } from '../vehicles/Vehicle';
 import { Scenario } from './Scenario';
 import { Sky } from './Sky';
+/** TAREAS POR HACER
+ * Mostrar UI para comenzar carrera (ya estaba escrito por el autor original)
+ * Crear escenario catedral con sus physics collider y el path finder para carreras de IA
+ * Importar escenario en proyecto threejs y comprobar que todo funcione
+ * Crear UI para comienzo de la aplicación y opciones: comenzar carrera, modo libre. (El modo libre quita la pantalla y empieza el juego tal y como está ahora por defecto y comenzar carrera simula como si se hubiese pulsado la opción de empezar carrera de la manera en la que estaba originalmente el proyecto)
+ * Crear carrera con catedral y carrera con naughty swain
+ * Crear Interfaz visual UI para pulsar los botones con el movil
+ * Que se pueda jugar a la gba dentro del juego
+ */
 export declare class World {
     renderer: THREE.WebGLRenderer;
     camera: THREE.PerspectiveCamera;
@@ -67,6 +76,12 @@ export declare class World {
     clearEntities(): void;
     scrollTheTimeScale(scrollAmount: number): void;
     updateControls(controls: any): void;
+    private createButtons;
+    private createButtonF;
+    private createButtonV;
+    private createNipple;
+    private bindNipple;
+    private handleJoystick;
     private generateHTML;
     private createParamsGUI;
 }

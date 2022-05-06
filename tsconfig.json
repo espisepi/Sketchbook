@@ -1,7 +1,7 @@
 {
     "include": [
         "src/ts/**/*"
-    ],
+, "build/types/audio.d.ts"    ],
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",

@@ -3,12 +3,27 @@
 
 <head>
 	<title>Sketchbook</title>
+
+	<link rel="stylesheet" href="index.css">
+
 </head>
 
 <body>
+
+	<div id="click-start-panel" class="click-start-panel">
+		<button id="click-start-btn" class="click-start-btn">Enter</button>
+	</div>
+
 	<script src="build/sketchbook.min.js"></script>
 	<script>
-		const world = new Sketchbook.World('build/assets/world.glb');
+		const clickStartButton = document.getElementById("click-start-btn");
+		clickStartButton.addEventListener("click", () => {
+
+			const clickStartPanel = document.getElementById("click-start-panel");
+			clickStartPanel.style.display = 'none';
+
+			const world = new Sketchbook.World('build/assets/world.glb');
+		});
 	</script>
 </body>
 
