@@ -63,6 +63,10 @@ export class Car extends Vehicle implements IControllable
 		this.steeringSimulator = new SpringSimulator(60, 10, 0.6);
 	}
 
+	public getSpeed() {
+		return this._speed;
+	}
+
 	public noDirectionPressed(): boolean
 	{
 		let result = 

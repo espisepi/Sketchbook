@@ -50,9 +50,6 @@ export class CarSound extends Car implements IControllable
 	{
 		super.update(timeStep);
 
-		console.log();
-
-
 
 		if(this.isPlayed === false && this.controllingCharacter) {
 			this.isPlayed = true;
