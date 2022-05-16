@@ -41,6 +41,7 @@ import { ThirdPersonCamera } from './ThirdPersonCamera';
 
 //TODO: Carrera con escenario catedral, se cambia texturas por texturavideo de cancion naugthy swain a elena con efectos rosa shader
 /** TAREAS POR HACER
+ * Hacer web scrapping en un servidor nodejs con puppetee aparte y mediante peticiones realizar compra y ver productos en un supermercado
  * Mostrar UI para comenzar carrera (ya estaba escrito por el autor original)
  * Crear escenario catedral con sus physics collider y el path finder para carreras de IA
  * Importar escenario en proyecto threejs y comprobar que todo funcione
@@ -572,10 +573,22 @@ export class World
 	{
 		this.createButtonF();
 		this.createButtonV();
-		
+		this.createCarButtons();
 	}
 
-	private createButtonF(){
+	private createCarButtons(): void
+	{
+		// TODO:
+		// Display car buttons visible
+		// getElementById(html element button)
+		// attach html button element to js event functionality
+		// div.addEventListener("pointerdown", (evt)=>{
+		// 	document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
+		// });
+
+	}
+
+	private createButtonF(): void{
 		const div = document.createElement('div');
 		div.style.width='100px';
 		div.style.height='100px';
@@ -587,7 +600,7 @@ export class World
 		document.body.appendChild(div);
 	}
 
-	private createButtonV(){
+	private createButtonV(): void{
 		const div = document.createElement('div');
 		div.style.top = '100px';
 		div.style.width='100px';
