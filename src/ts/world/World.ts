@@ -190,7 +190,7 @@ export class World
 				// 		UIManager.setUserInterfaceVisible(true);
 				// 	}
 				// });
-				UIManager.setUserInterfaceVisible(true);
+				// UIManager.setUserInterfaceVisible(true);
 			};
 			loadingManager.loadGLTF(worldScenePath, (gltf) =>
 				{
@@ -200,7 +200,7 @@ export class World
 		}
 		else
 		{
-			UIManager.setUserInterfaceVisible(true);
+			// UIManager.setUserInterfaceVisible(true);
 			UIManager.setLoadingScreenVisible(false);
 			// Swal.fire({
 			// 	icon: 'success',
