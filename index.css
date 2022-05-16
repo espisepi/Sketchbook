@@ -9,9 +9,13 @@
     */
     -ms-user-select: none;
     user-select: none;
-    
+
     -webkit-touch-callout:none;
 
+ }
+
+ .non-visible {
+     display: none;
  }
 
 
@@ -71,3 +75,20 @@
     transform: rotate(0deg);
 }
 
+.hand-brake {
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+}
+
+.enter-vehicle {
+    position: absolute;
+    bottom: 100px;
+    left: 10px;
+}
+
+.magnifying-glass {
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+}

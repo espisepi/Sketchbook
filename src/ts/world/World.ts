@@ -571,8 +571,6 @@ export class World
 
 	private createButtons(): void 
 	{
-		this.createButtonF();
-		this.createButtonV();
 		this.createCarButtons();
 	}
 
@@ -622,31 +620,30 @@ export class World
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
 		});
 
-	}
+		const handBrake = document.getElementById("hand-brake");
+		handBrake.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
+		});
+		downArrow.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
+		});
 
-	private createButtonF(): void{
-		const div = document.createElement('div');
-		div.style.width='100px';
-		div.style.height='100px';
-		div.style.position='absolute';
-		div.style.backgroundColor='red';
-		div.addEventListener("pointerdown", (evt)=>{
+		const enterVehicle = document.getElementById("enter-vehicle");
+		enterVehicle.addEventListener("pointerdown", (evt)=>{
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
 		});
-		document.body.appendChild(div);
-	}
+		enterVehicle.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
+		});
 
-	private createButtonV(): void{
-		const div = document.createElement('div');
-		div.style.top = '100px';
-		div.style.width='100px';
-		div.style.height='100px';
-		div.style.position='absolute';
-		div.style.backgroundColor='blue';
-		div.addEventListener("pointerdown", (evt)=>{
+		const magnifyingGlass = document.getElementById("magnifying-glass");
+		magnifyingGlass.addEventListener("pointerdown", (evt)=>{
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
 		});
-		document.body.appendChild(div);
+		magnifyingGlass.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+		});
+
 	}
 
 	private createNipple(): void 
