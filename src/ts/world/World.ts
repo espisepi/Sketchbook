@@ -590,81 +590,140 @@ export class World
 
 		const leftArrow = document.getElementById("left-arrow");
 		leftArrow.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
 		});
 		leftArrow.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
+		});
+		leftArrow.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
 		});
 
 		const rightArrow = document.getElementById("right-arrow");
 		rightArrow.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
 		});
 		rightArrow.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
+		});
+		rightArrow.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 
 		const upArrow = document.getElementById("up-arrow");
 		upArrow.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
 		});
 		upArrow.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
 		});
+		upArrow.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
+		});
+		
 
 		const downArrow = document.getElementById("down-arrow");
 		downArrow.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
 		});
 		downArrow.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
+		});
+		downArrow.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
 		});
 
 		const handBrake = document.getElementById("hand-brake");
 		handBrake.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
 		});
-		downArrow.addEventListener("pointerup", (evt)=>{
+		handBrake.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
+		});
+		handBrake.addEventListener("pointerout", (evt)=>{
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
 		});
 
 		const enterVehicle = document.getElementById("enter-vehicle");
 		enterVehicle.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
 		});
 		enterVehicle.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
+		});
+		enterVehicle.addEventListener("pointerout", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
 		});
 
 		const magnifyingGlass = document.getElementById("magnifying-glass");
 		magnifyingGlass.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
 		});
 		magnifyingGlass.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+		});
+		magnifyingGlass.addEventListener("pointerout", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
 
 		const leftPlane = document.getElementById("left-plane");
 		leftPlane.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'q', code: 'KeyQ' }));
 		});
 		leftPlane.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
+		});
+		leftPlane.addEventListener("pointerout", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
 		});
 
 		const rightPlane = document.getElementById("right-plane");
 		rightPlane.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', code: 'KeyE' }));
 		});
 		rightPlane.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
+		});
+		rightPlane.addEventListener("pointerout", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
 		});
 
 		const enginePlane = document.getElementById("engine-plane");
 		enginePlane.addEventListener("pointerdown", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
 		});
 		enginePlane.addEventListener("pointerup", (evt)=>{
+			evt.preventDefault();
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
+		});
+		enginePlane.addEventListener("pointerout", (evt)=>{
+			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
 
