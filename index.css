@@ -6,9 +6,48 @@
 }
 
 .click-start-btn {
-    position: absolute;
     width: 400px;
     height: 400px;
-    left: 50%;
+    position: absolute;
     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.controls-car-ui {
+    position: absolute;
+    z-index: 999;
+    bottom: 0;
+    background-color: transparent;
+    display: flex;
+    width: 100vw;
+    justify-content: space-evenly;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.controls-car-ui img {
+    padding: 20px;
+    width: 7vw;
+    height: 7vh;
+}
+
+.controls-car-ui img:hover {
+    background-color: rgb(147, 147, 147);
+}
+
+.up-arrow {
+    transform: rotate(-90deg);
+}
+
+.down-arrow {
+    transform: rotate(90deg);
+}
+
+.left-arrow {
+    transform: rotate(180deg);
+}
+
+.right-arrow {
+    transform: rotate(0deg);
 }

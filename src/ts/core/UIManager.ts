@@ -15,4 +15,5 @@ export class UIManager
 		document.getElementById('statsBox').style.display = value ? 'block' : 'none';
 		document.getElementById('dat-gui-container').style.top = value ? '48px' : '0px';
 	}
+
 }
