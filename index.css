@@ -50,9 +50,9 @@
     padding: 20px;
     height: 45px;
     width: 45px;
-    background-color: #bbb;
     border-radius: 50%;
     background-color: rgb(23, 23, 23);
+    opacity: 0.85;
 }
 
 .controls-car-ui img:hover {
@@ -91,4 +91,24 @@
     position: absolute;
     bottom: 100px;
     left: 100px;
+}
+
+.left-plane {
+    position: absolute;
+    bottom: 200px;
+    left: 10px;
+    transform: rotate(-90deg);
+}
+
+.right-plane {
+    position: absolute;
+    bottom: 200px;
+    left: 100px;
+}
+
+.engine-plane {
+    position: absolute;
+    bottom: 200px;
+    right: 10px;
+    transform: rotate(-45deg);
 }

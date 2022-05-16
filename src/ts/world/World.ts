@@ -581,12 +581,12 @@ export class World
 		// getElementById(html element button)
 		// attach html button element to js event functionality
 
-		// document.addEventListener('keydown', (event)=> {    
-		// 	console.log(event); // all event related info
-		// 	console.log(event.type);
-		// 	console.log(event.key);
-		// 	console.log(event.code);
-		// });
+		document.addEventListener('keydown', (event)=> {    
+			console.log(event); // all event related info
+			console.log(event.type);
+			console.log(event.key);
+			console.log(event.code);
+		});
 
 		const leftArrow = document.getElementById("left-arrow");
 		leftArrow.addEventListener("pointerdown", (evt)=>{
@@ -643,6 +643,31 @@ export class World
 		magnifyingGlass.addEventListener("pointerup", (evt)=>{
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
+
+		const leftPlane = document.getElementById("left-plane");
+		leftPlane.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'q', code: 'KeyQ' }));
+		});
+		leftPlane.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
+		});
+
+		const rightPlane = document.getElementById("right-plane");
+		rightPlane.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', code: 'KeyE' }));
+		});
+		rightPlane.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
+		});
+
+		const enginePlane = document.getElementById("engine-plane");
+		enginePlane.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
+		});
+		enginePlane.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
+		});
+
 
 	}
 
