@@ -1,3 +1,16 @@
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+ 
+    /*
+      Introduced in IE 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+ }
+
 
 .click-start-panel {
     width: 100vw;
@@ -28,8 +41,10 @@
 
 .controls-car-ui img {
     padding: 20px;
-    width: 7vw;
-    height: 7vh;
+    height: 45px;
+    width: 45px;
+    background-color: #bbb;
+    border-radius: 50%;
     background-color: rgb(23, 23, 23);
 }
 
@@ -52,3 +67,4 @@
 .right-arrow {
     transform: rotate(0deg);
 }
+
