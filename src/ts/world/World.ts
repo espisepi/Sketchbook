@@ -578,13 +578,49 @@ export class World
 
 	private createCarButtons(): void
 	{
-		// TODO:
+		// TODO: HECHO!
 		// Display car buttons visible
 		// getElementById(html element button)
 		// attach html button element to js event functionality
-		// div.addEventListener("pointerdown", (evt)=>{
-		// 	document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
+
+		// document.addEventListener('keydown', (event)=> {    
+		// 	console.log(event); // all event related info
+		// 	console.log(event.type);
+		// 	console.log(event.key);
+		// 	console.log(event.code);
 		// });
+
+		const leftArrow = document.getElementById("left-arrow");
+		leftArrow.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
+		});
+		leftArrow.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
+		});
+
+		const rightArrow = document.getElementById("right-arrow");
+		rightArrow.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
+		});
+		rightArrow.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
+		});
+
+		const upArrow = document.getElementById("up-arrow");
+		upArrow.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
+		});
+		upArrow.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
+		});
+
+		const downArrow = document.getElementById("down-arrow");
+		downArrow.addEventListener("pointerdown", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
+		});
+		downArrow.addEventListener("pointerup", (evt)=>{
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
+		});
 
 	}
 
