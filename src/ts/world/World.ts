@@ -581,12 +581,12 @@ export class World
 		// getElementById(html element button)
 		// attach html button element to js event functionality
 
-		document.addEventListener('keydown', (event)=> {    
-			console.log(event); // all event related info
-			console.log(event.type);
-			console.log(event.key);
-			console.log(event.code);
-		});
+		// document.addEventListener('keydown', (event)=> {    
+		// 	console.log(event); // all event related info
+		// 	console.log(event.type);
+		// 	console.log(event.key);
+		// 	console.log(event.code);
+		// });
 
 		const leftArrow = document.getElementById("left-arrow");
 		leftArrow.addEventListener("pointerdown", (evt)=>{
