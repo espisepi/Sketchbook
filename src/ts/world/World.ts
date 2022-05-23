@@ -39,6 +39,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { create as createManagerNipple } from 'nipplejs';
 import { ThirdPersonCamera } from './ThirdPersonCamera';
 
+import { MultiplayerWorld } from '../multiplayer/MultiplayerWorld';
+
 //TODO: Carrera con escenario catedral, se cambia texturas por texturavideo de cancion naugthy swain a elena con efectos rosa shader
 /** TAREAS POR HACER
  * Hacer web scrapping en un servidor nodejs con puppetee aparte y mediante peticiones realizar compra y ver productos en un supermercado
@@ -171,6 +173,8 @@ export class World
 		this.inputManager = new InputManager(this, this.renderer.domElement);
 		this.cameraOperator = new CameraOperator(this, this.camera, this.params.Mouse_Sensitivity);
 		// this.sky = new Sky(this);
+
+		const multiplayerWorld = new MultiplayerWorld(this);
 		
 		// Load scene if path is supplied
 		if (worldScenePath !== undefined)
@@ -581,12 +585,12 @@ export class World
 		// getElementById(html element button)
 		// attach html button element to js event functionality
 
-		// document.addEventListener('keydown', (event)=> {    
-		// 	console.log(event); // all event related info
-		// 	console.log(event.type);
-		// 	console.log(event.key);
-		// 	console.log(event.code);
-		// });
+		document.addEventListener('keydown', (event)=> {    
+			console.log(event); // all event related info
+			console.log(event.type);
+			console.log(event.key);
+			console.log(event.code);
+		});
 
 		const leftArrow = document.getElementById("left-arrow");
 		leftArrow.addEventListener("pointerdown", (evt)=>{
