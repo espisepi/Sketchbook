@@ -935,4 +935,20 @@ export class World
 
 		gui.open();
 	}
+
+	public getGraphicsWorld(): THREE.Scene {
+		return this.graphicsWorld;
+	}
+
+	public getCamera(): THREE.Camera {
+		return this.camera;
+	}
+
+	public getFirstCharacter(): Character {
+		return this.characters[0];
+	}
+
+	public getCharacters(): Character[] {
+		return this.characters;
+	}
 }

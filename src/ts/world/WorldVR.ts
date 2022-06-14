@@ -28,7 +28,18 @@ export class WorldVR extends World{
 
     private initControllers(): void {
         const controllerModelFactory = new XRControllerModelFactory();
+        console.log(super.getCamera());
+        console.log(super.getCharacters())
         
+
+
+
+        // var user = new THREE.Group();
+        // user.position.set(0,0,0);
+        // camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        // camera.position.y = 1.6;
+        // user.add( camera );
+        // scene.add(user);
     }
 
     // @Override
