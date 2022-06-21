@@ -38,7 +38,7 @@ export class CarSound extends Car implements IControllable
 		audioLoader.load( 'build/assets/car_engine.wav', function( buffer ) {
 			sound.setBuffer( buffer );
 			sound.setLoop( true );
-			sound.setVolume( 0.5 );
+			sound.setVolume( 0.05 );
 			// sound.play();
 			// sound.detune = 1000;
 		});

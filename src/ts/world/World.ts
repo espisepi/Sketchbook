@@ -7,7 +7,7 @@ import { CameraOperator } from '../core/CameraOperator';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { FXAAShader  } from 'three/examples/jsm/shaders/FXAAShader';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader';
 
 import { Detector } from '../../lib/utils/Detector';
 import { Stats } from '../../lib/utils/Stats';
@@ -50,8 +50,7 @@ import { ThirdPersonCamera } from './ThirdPersonCamera';
  * Crear Interfaz visual UI para pulsar los botones con el movil
  * Que se pueda jugar a la gba dentro del juego
  */
-export class World
-{
+export class World {
 	public renderer: THREE.WebGLRenderer;
 	public camera: THREE.PerspectiveCamera;
 	public composer: any;
@@ -84,13 +83,11 @@ export class World
 
 	private lastScenarioID: string;
 
-	constructor(worldScenePath?: any)
-	{
+	constructor(worldScenePath?: any) {
 		const scope = this;
 
 		// WebGL not supported
-		if (!Detector.webgl)
-		{
+		if (!Detector.webgl) {
 			Swal.fire({
 				icon: 'warning',
 				title: 'WebGL compatibility',
@@ -115,8 +112,7 @@ export class World
 		this.createButtons();
 
 		// Auto window resize
-		function onWindowResize(): void
-		{
+		function onWindowResize(): void {
 			scope.camera.aspect = window.innerWidth / window.innerHeight;
 			scope.camera.updateProjectionMatrix();
 			scope.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -129,14 +125,17 @@ export class World
 		this.graphicsWorld = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1010);
 
+		// @ts-ignore
+		window.scene = this.graphicsWorld;
+
 		// Passes
-		let renderPass = new RenderPass( this.graphicsWorld, this.camera );
-		let fxaaPass = new ShaderPass( FXAAShader );
+		let renderPass = new RenderPass(this.graphicsWorld, this.camera);
+		let fxaaPass = new ShaderPass(FXAAShader);
 
 		// FXAA
 		let pixelRatio = this.renderer.getPixelRatio();
-		fxaaPass.material['uniforms'].resolution.value.x = 1 / ( window.innerWidth * pixelRatio );
-		fxaaPass.material['uniforms'].resolution.value.y = 1 / ( window.innerHeight * pixelRatio );
+		fxaaPass.material['uniforms'].resolution.value.x = 1 / (window.innerWidth * pixelRatio);
+		fxaaPass.material['uniforms'].resolution.value.y = 1 / (window.innerHeight * pixelRatio);
 
 		// Composer
 		// this.composer = new EffectComposer( this.renderer );
@@ -171,16 +170,15 @@ export class World
 		this.inputManager = new InputManager(this, this.renderer.domElement);
 		this.cameraOperator = new CameraOperator(this, this.camera, this.params.Mouse_Sensitivity);
 		// this.sky = new Sky(this);
-		
+
+
 		// Load scene if path is supplied
-		if (worldScenePath !== undefined)
-		{
+		if (worldScenePath !== undefined) {
 			let loadingManager = new LoadingManager(this);
-			loadingManager.onFinishedCallback = () =>
-			{
+			loadingManager.onFinishedCallback = () => {
 				this.update(1, 1);
 				this.setTimeScale(1);
-	
+
 				// Swal.fire({
 				// 	title: 'Welcome to Sketchbook!',
 				// 	text: 'Feel free to explore the world and interact with available vehicles. There are also various scenarios ready to launch from the right panel.',
@@ -193,14 +191,12 @@ export class World
 				// });
 				// UIManager.setUserInterfaceVisible(true);
 			};
-			loadingManager.loadGLTF(worldScenePath, (gltf) =>
-				{
-					this.loadScene(loadingManager, gltf);
-				}
+			loadingManager.loadGLTF(worldScenePath, (gltf) => {
+				this.loadScene(loadingManager, gltf);
+			}
 			);
 		}
-		else
-		{
+		else {
 			// UIManager.setUserInterfaceVisible(true);
 			UIManager.setLoadingScreenVisible(false);
 			// Swal.fire({
@@ -216,8 +212,7 @@ export class World
 
 	// Update
 	// Handles all logic updates.
-	public update(timeStep: number, unscaledTimeStep: number): void
-	{
+	public update(timeStep: number, unscaledTimeStep: number): void {
 		this.updatePhysics(timeStep);
 
 		// Update registred objects
@@ -232,7 +227,7 @@ export class World
 		if (this.params.Debug_Physics) this.cannonDebugRenderer.update();
 
 		//espisepi: add thirdpersonCamera to Character
-		if(this.cameraOperator.followMode === false){
+		if (this.cameraOperator.followMode === false) {
 			this.cameraOperator.followMode = true;
 		}
 		// if(!this.thirdPersonCamera && this.cameraOperator){
@@ -244,8 +239,7 @@ export class World
 		// FIN espisepi: add thirdpersonCamera to Character
 	}
 
-	public updatePhysics(timeStep: number): void
-	{
+	public updatePhysics(timeStep: number): void {
 		// Step the physics world
 		this.physicsWorld.step(this.physicsFrameTime, timeStep);
 
@@ -267,18 +261,16 @@ export class World
 		// });
 	}
 
-	public isOutOfBounds(position: CANNON.Vec3): boolean
-	{
+	public isOutOfBounds(position: CANNON.Vec3): boolean {
 		let inside = position.x > -211.882 && position.x < 211.882 &&
-					position.z > -169.098 && position.z < 153.232 &&
-					position.y > 0.107;
+			position.z > -169.098 && position.z < 153.232 &&
+			position.y > 0.107;
 		let belowSeaLevel = position.y < 14.989;
 
 		return !inside && belowSeaLevel;
 	}
 
-	public outOfBoundsRespawn(body: CANNON.Body, position?: CANNON.Vec3): void
-	{
+	public outOfBoundsRespawn(body: CANNON.Body, position?: CANNON.Vec3): void {
 		let newPos = position || new CANNON.Vec3(0, 16, 0);
 		let newQuat = new CANNON.Quaternion(0, 0, 0, 1);
 
@@ -296,17 +288,15 @@ export class World
 	 * Calls world's "update" function before rendering.
 	 * @param {World} world 
 	 */
-	public render(world: World): void
-	{
+	public render(world: World): void {
 		this.requestDelta = this.clock.getDelta();
 
-		requestAnimationFrame(() =>
-		{
+		requestAnimationFrame(() => {
 			world.render(world);
 		});
 
 		// Getting timeStep
-		let unscaledTimeStep = (this.requestDelta + this.renderDelta + this.logicDelta) ;
+		let unscaledTimeStep = (this.requestDelta + this.renderDelta + this.logicDelta);
 		let timeStep = unscaledTimeStep * this.params.Time_Scale;
 		timeStep = Math.min(timeStep, 1 / 30);    // min 30 fps
 
@@ -334,60 +324,54 @@ export class World
 		this.renderDelta = this.clock.getDelta();
 	}
 
-	public setTimeScale(value: number): void
-	{
+	public setTimeScale(value: number): void {
 		this.params.Time_Scale = value;
 		this.timeScaleTarget = value;
 	}
 
-	public add(worldEntity: IWorldEntity): void
-	{
+	public add(worldEntity: IWorldEntity): void {
 		worldEntity.addToWorld(this);
 		this.registerUpdatable(worldEntity);
 	}
 
-	public registerUpdatable(registree: IUpdatable): void
-	{
+	public registerUpdatable(registree: IUpdatable): void {
 		this.updatables.push(registree);
 		this.updatables.sort((a, b) => (a.updateOrder > b.updateOrder) ? 1 : -1);
 	}
 
-	public remove(worldEntity: IWorldEntity): void
-	{
+	public remove(worldEntity: IWorldEntity): void {
 		worldEntity.removeFromWorld(this);
 		this.unregisterUpdatable(worldEntity);
 	}
 
-	public unregisterUpdatable(registree: IUpdatable): void
-	{
+	public unregisterUpdatable(registree: IUpdatable): void {
 		_.pull(this.updatables, registree);
 	}
 
-	public loadScene(loadingManager: LoadingManager, gltf: any): void
-	{
+	public loadScene(loadingManager: LoadingManager, gltf: any): void {
 		/* espisepi code */
 		// const createWorld = new CreateScenario(this);
 		// Create plane mesh physics
 		// const mesh = new THREE.Mesh(
-        //     new THREE.BoxBufferGeometry(1,1,1),
-        //     new THREE.MeshBasicMaterial({color:'red', wireframe:true})
-        // );
+		//     new THREE.BoxBufferGeometry(1,1,1),
+		//     new THREE.MeshBasicMaterial({color:'red', wireframe:true})
+		// );
 		// mesh.position.set(0,0,0);
 		// mesh.scale.set(5000,1,5000);
 		// mesh.updateMatrix();
 		// this.graphicsWorld.add(mesh);
 		// const phys = new BoxCollider({size: new THREE.Vector3(mesh.scale.x, mesh.scale.y, mesh.scale.z)});
-        // phys.body.position.copy(Utils.cannonVector(mesh.position));
-        // phys.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
+		// phys.body.position.copy(Utils.cannonVector(mesh.position));
+		// phys.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
 		// phys.body.computeAABB();
 		// phys.body.shapes.forEach((shape) => {
 		// 	shape.collisionFilterMask = ~CollisionGroups.TrimeshColliders;
 		// });
-        // this.physicsWorld.addBody(phys.body);
+		// this.physicsWorld.addBody(phys.body);
 
 		const ambientLight = new THREE.AmbientLight();
 		this.graphicsWorld.add(ambientLight);
-		
+
 		const loader = new GLTFLoader();
 		// loader.load('build/assets/pla.glb',(gltf)=>{
 		// 	const scene = gltf.scene;
@@ -420,8 +404,7 @@ export class World
 		// });
 
 		gltf.scene.traverse((child) => {
-			if (child.hasOwnProperty('userData'))
-			{
+			if (child.hasOwnProperty('userData')) {
 				// if (child.type === 'Mesh')
 				// {
 				// 	Utils.setupMeshProperties(child);
@@ -433,16 +416,12 @@ export class World
 				// 	}
 				// }
 
-				if (child.userData.hasOwnProperty('data'))
-				{
-					if (child.userData.data === 'physics')
-					{
-						if (child.userData.hasOwnProperty('type')) 
-						{
+				if (child.userData.hasOwnProperty('data')) {
+					if (child.userData.data === 'physics') {
+						if (child.userData.hasOwnProperty('type')) {
 							// Convex doesn't work! Stick to boxes!
-							if (child.userData.type === 'box')
-							{
-								let phys = new BoxCollider({size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z)});
+							if (child.userData.type === 'box') {
+								let phys = new BoxCollider({ size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z) });
 								phys.body.position.copy(Utils.cannonVector(child.position));
 								phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
 								phys.body.computeAABB();
@@ -453,8 +432,14 @@ export class World
 
 								this.physicsWorld.addBody(phys.body);
 							}
-							else if (child.userData.type === 'trimesh')
-							{
+							else if (child.userData.type === 'trimesh') {
+								// Invertir normals
+								// const sininvertir = child.geometry.attributes.normal.array;
+								// console.log(sininvertir);
+								// const invertedNormals = child.geometry.attributes.normal.array.map(v => (-1) * v);
+								// console.log(invertedNormals)
+								// child.geometry.attributes.normal.array = invertedNormals;
+
 								let phys = new TrimeshCollider(child, {});
 								this.physicsWorld.addBody(phys.body);
 							}
@@ -463,13 +448,11 @@ export class World
 						}
 					}
 
-					if (child.userData.data === 'path')
-					{
+					if (child.userData.data === 'path') {
 						this.paths.push(new Path(child));
 					}
 
-					if (child.userData.data === 'scenario')
-					{
+					if (child.userData.data === 'scenario') {
 						this.scenarios.push(new Scenario(child, this));
 					}
 				}
@@ -489,9 +472,8 @@ export class World
 		}
 		if (defaultScenarioID !== undefined) this.launchScenario(defaultScenarioID, loadingManager);
 	}
-	
-	public launchScenario(scenarioID: string, loadingManager?: LoadingManager): void
-	{
+
+	public launchScenario(scenarioID: string, loadingManager?: LoadingManager): void {
 		this.lastScenarioID = scenarioID;
 
 		this.clearEntities();
@@ -505,21 +487,17 @@ export class World
 		}
 	}
 
-	public restartScenario(): void
-	{
-		if (this.lastScenarioID !== undefined)
-		{
+	public restartScenario(): void {
+		if (this.lastScenarioID !== undefined) {
 			document.exitPointerLock();
 			this.launchScenario(this.lastScenarioID);
 		}
-		else
-		{
+		else {
 			console.warn('Can\'t restart scenario. Last scenarioID is undefined.');
 		}
 	}
 
-	public clearEntities(): void
-	{
+	public clearEntities(): void {
 		for (let i = 0; i < this.characters.length; i++) {
 			this.remove(this.characters[i]);
 			i--;
@@ -531,32 +509,27 @@ export class World
 		}
 	}
 
-	public scrollTheTimeScale(scrollAmount: number): void
-	{
+	public scrollTheTimeScale(scrollAmount: number): void {
 		// Changing time scale with scroll wheel
 		const timeScaleBottomLimit = 0.003;
 		const timeScaleChangeSpeed = 1.3;
-	
-		if (scrollAmount > 0)
-		{
+
+		if (scrollAmount > 0) {
 			this.timeScaleTarget /= timeScaleChangeSpeed;
 			if (this.timeScaleTarget < timeScaleBottomLimit) this.timeScaleTarget = 0;
 		}
-		else
-		{
+		else {
 			this.timeScaleTarget *= timeScaleChangeSpeed;
 			if (this.timeScaleTarget < timeScaleBottomLimit) this.timeScaleTarget = timeScaleBottomLimit;
 			this.timeScaleTarget = Math.min(this.timeScaleTarget, 1);
 		}
 	}
 
-	public updateControls(controls: any): void
-	{
+	public updateControls(controls: any): void {
 		let html = '';
 		html += '<h2 class="controls-title">Controls:</h2>';
 
-		controls.forEach((row) =>
-		{
+		controls.forEach((row) => {
 			html += '<div class="ctrl-row">';
 			row.keys.forEach((key) => {
 				if (key === '+' || key === 'and' || key === 'or' || key === '&') html += '&nbsp;' + key + '&nbsp;';
@@ -569,13 +542,11 @@ export class World
 		document.getElementById('controls').innerHTML = html;
 	}
 
-	private createButtons(): void 
-	{
+	private createButtons(): void {
 		this.createCarButtons();
 	}
 
-	private createCarButtons(): void
-	{
+	private createCarButtons(): void {
 		// TODO: HECHO!
 		// Display car buttons visible
 		// getElementById(html element button)
@@ -589,11 +560,11 @@ export class World
 		// });
 
 		const leftArrow = document.getElementById("left-arrow");
-		leftArrow.addEventListener("pointerdown", (evt)=>{
+		leftArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
 		});
-		leftArrow.addEventListener("pointerup", (evt)=>{
+		leftArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
 		});
@@ -603,11 +574,11 @@ export class World
 		});
 
 		const rightArrow = document.getElementById("right-arrow");
-		rightArrow.addEventListener("pointerdown", (evt)=>{
+		rightArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
 		});
-		rightArrow.addEventListener("pointerup", (evt)=>{
+		rightArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
@@ -617,11 +588,11 @@ export class World
 		});
 
 		const upArrow = document.getElementById("up-arrow");
-		upArrow.addEventListener("pointerdown", (evt)=>{
+		upArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
 		});
-		upArrow.addEventListener("pointerup", (evt)=>{
+		upArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
 		});
@@ -629,14 +600,14 @@ export class World
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
 		});
-		
+
 
 		const downArrow = document.getElementById("down-arrow");
-		downArrow.addEventListener("pointerdown", (evt)=>{
+		downArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
 		});
-		downArrow.addEventListener("pointerup", (evt)=>{
+		downArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
 		});
@@ -646,83 +617,83 @@ export class World
 		});
 
 		const handBrake = document.getElementById("hand-brake");
-		handBrake.addEventListener("pointerdown", (evt)=>{
+		handBrake.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
 		});
-		handBrake.addEventListener("pointerup", (evt)=>{
+		handBrake.addEventListener("pointerup", (evt) => {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
 		});
-		handBrake.addEventListener("pointerout", (evt)=>{
+		handBrake.addEventListener("pointerout", (evt) => {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
 		});
 
 		const enterVehicle = document.getElementById("enter-vehicle");
-		enterVehicle.addEventListener("pointerdown", (evt)=>{
+		enterVehicle.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
 		});
-		enterVehicle.addEventListener("pointerup", (evt)=>{
+		enterVehicle.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
 		});
-		enterVehicle.addEventListener("pointerout", (evt)=>{
+		enterVehicle.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
 		});
 
 		const magnifyingGlass = document.getElementById("magnifying-glass");
-		magnifyingGlass.addEventListener("pointerdown", (evt)=>{
+		magnifyingGlass.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
 		});
-		magnifyingGlass.addEventListener("pointerup", (evt)=>{
+		magnifyingGlass.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
-		magnifyingGlass.addEventListener("pointerout", (evt)=>{
+		magnifyingGlass.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
 
 		const leftPlane = document.getElementById("left-plane");
-		leftPlane.addEventListener("pointerdown", (evt)=>{
+		leftPlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'q', code: 'KeyQ' }));
 		});
-		leftPlane.addEventListener("pointerup", (evt)=>{
+		leftPlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
 		});
-		leftPlane.addEventListener("pointerout", (evt)=>{
+		leftPlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
 		});
 
 		const rightPlane = document.getElementById("right-plane");
-		rightPlane.addEventListener("pointerdown", (evt)=>{
+		rightPlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', code: 'KeyE' }));
 		});
-		rightPlane.addEventListener("pointerup", (evt)=>{
+		rightPlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
 		});
-		rightPlane.addEventListener("pointerout", (evt)=>{
+		rightPlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
 		});
 
 		const enginePlane = document.getElementById("engine-plane");
-		enginePlane.addEventListener("pointerdown", (evt)=>{
+		enginePlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
 		});
-		enginePlane.addEventListener("pointerup", (evt)=>{
+		enginePlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
-		enginePlane.addEventListener("pointerout", (evt)=>{
+		enginePlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
@@ -730,12 +701,11 @@ export class World
 
 	}
 
-	private createNipple(): void 
-	{
+	private createNipple(): void {
 		const div = document.createElement('div');
-		div.style.width='100vw';
-		div.style.height='100vh';
-		div.style.position='absolute';
+		div.style.width = '100vw';
+		div.style.height = '100vh';
+		div.style.position = 'absolute';
 		document.body.appendChild(div);
 		// document.getElementById('canvas').style.position = 'absolute';
 		this.renderer.domElement.style.position = 'absolute';
@@ -748,57 +718,55 @@ export class World
 		this.bindNipple(joystick);
 	}
 
-	private bindNipple(joystick: any): void
-	{
+	private bindNipple(joystick: any): void {
 
-		const handleJoystick = (evt:any, data:any) => {
-			this.handleJoystick(evt,data);
+		const handleJoystick = (evt: any, data: any) => {
+			this.handleJoystick(evt, data);
 		}
 
-		joystick.on('start end', function(evt, data) {
-			handleJoystick(evt,data);
-		  }).on('move', function(evt, data) {
-			handleJoystick(evt,data);
-		  }).on('dir:up plain:up dir:left plain:left dir:down ' +
-				'plain:down dir:right plain:right',
-				function(evt, data) {
-			handleJoystick(evt,data);
-		  }
-			   ).on('pressure', function(evt, data) {
-			handleJoystick(evt,data);
-		  });
+		joystick.on('start end', function (evt, data) {
+			handleJoystick(evt, data);
+		}).on('move', function (evt, data) {
+			handleJoystick(evt, data);
+		}).on('dir:up plain:up dir:left plain:left dir:down ' +
+			'plain:down dir:right plain:right',
+			function (evt, data) {
+				handleJoystick(evt, data);
+			}
+		).on('pressure', function (evt, data) {
+			handleJoystick(evt, data);
+		});
 	}
 
-	private handleJoystick(evt: any, data:any): void{
-		if (data?.direction?.y === 'up' && ( data?.angle?.degree >= 15.0 && data?.angle?.degree <= 165.0 ) ) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
-        } else {
-            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
-        }
-        if (data?.direction?.y === 'down' && ( data?.angle?.degree >= 195.0 && data?.angle?.degree <= 345.0 ) ) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
-        } else {
-            document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
-        }
-        if (data?.direction?.x === 'left' && ( data?.angle?.degree >= 135.0 && data?.angle?.degree <= 225.0 ) ) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
-        } else {
-            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
-        }
-        if (data?.direction?.x === 'right'  && ( data?.angle?.degree <= 45.0 || data?.angle?.degree >= 315.0 ) ) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
-        } else {
-            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
-        }
-        if (data?.force >= 1.0) {
-            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'shift', code: 'ShiftLeft' }));
-        } else {
-            document.dispatchEvent(new KeyboardEvent('keyup', { key: 'shift', code: 'ShiftLeft' }));
-        }
+	private handleJoystick(evt: any, data: any): void {
+		if (data?.direction?.y === 'up' && (data?.angle?.degree >= 15.0 && data?.angle?.degree <= 165.0)) {
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
+		} else {
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
+		}
+		if (data?.direction?.y === 'down' && (data?.angle?.degree >= 195.0 && data?.angle?.degree <= 345.0)) {
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
+		} else {
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
+		}
+		if (data?.direction?.x === 'left' && (data?.angle?.degree >= 135.0 && data?.angle?.degree <= 225.0)) {
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
+		} else {
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
+		}
+		if (data?.direction?.x === 'right' && (data?.angle?.degree <= 45.0 || data?.angle?.degree >= 315.0)) {
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
+		} else {
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
+		}
+		if (data?.force >= 1.0) {
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'shift', code: 'ShiftLeft' }));
+		} else {
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'shift', code: 'ShiftLeft' }));
+		}
 	}
 
-	private generateHTML(): void
-	{
+	private generateHTML(): void {
 		// Fonts
 		$('head').append('<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">');
 		$('head').append('<link href="https://fonts.googleapis.com/css2?family=Solway:wght@400;500;700&display=swap" rel="stylesheet">');
@@ -842,19 +810,22 @@ export class World
 		this.renderer.domElement.id = 'canvas';
 	}
 
-	private createParamsGUI(scope: World): void
-	{
+	private createParamsGUI(scope: World): void {
 		this.params = {
 			Pointer_Lock: true,
 			Mouse_Sensitivity: 0.3,
 			Time_Scale: 1,
 			Shadows: true,
 			FXAA: true,
-			Debug_Physics: false,
+			Debug_Physics: true,
 			Debug_FPS: false,
 			Sun_Elevation: 50,
 			Sun_Rotation: 145,
 		};
+
+		if (this.params.Debug_Physics) {
+			this.cannonDebugRenderer = new CannonDebugRenderer(this.graphicsWorld, this.physicsWorld);
+		}
 
 		const gui = new GUI.GUI();
 
@@ -865,18 +836,15 @@ export class World
 		// World
 		let worldFolder = gui.addFolder('World');
 		worldFolder.add(this.params, 'Time_Scale', 0, 1).listen()
-			.onChange((value) =>
-			{
+			.onChange((value) => {
 				scope.timeScaleTarget = value;
 			});
 		worldFolder.add(this.params, 'Sun_Elevation', 0, 180).listen()
-			.onChange((value) =>
-			{
+			.onChange((value) => {
 				scope.sky.phi = value;
 			});
 		worldFolder.add(this.params, 'Sun_Rotation', 0, 360).listen()
-			.onChange((value) =>
-			{
+			.onChange((value) => {
 				scope.sky.theta = value;
 			});
 
@@ -884,52 +852,42 @@ export class World
 		let settingsFolder = gui.addFolder('Settings');
 		settingsFolder.add(this.params, 'FXAA');
 		settingsFolder.add(this.params, 'Shadows')
-			.onChange((enabled) =>
-			{
-				if (enabled)
-				{
+			.onChange((enabled) => {
+				if (enabled) {
 					// this.sky.csm.lights.forEach((light) => {
 					// 	light.castShadow = true;
 					// });
 				}
-				else
-				{
+				else {
 					// this.sky.csm.lights.forEach((light) => {
 					// 	light.castShadow = false;
 					// });
 				}
 			});
 		settingsFolder.add(this.params, 'Pointer_Lock')
-			.onChange((enabled) =>
-			{
+			.onChange((enabled) => {
 				scope.inputManager.setPointerLock(enabled);
 			});
 		settingsFolder.add(this.params, 'Mouse_Sensitivity', 0, 1)
-			.onChange((value) =>
-			{
+			.onChange((value) => {
 				scope.cameraOperator.setSensitivity(value, value * 0.8);
 			});
 		settingsFolder.add(this.params, 'Debug_Physics')
-			.onChange((enabled) =>
-			{
-				if (enabled)
-				{
-					this.cannonDebugRenderer = new CannonDebugRenderer( this.graphicsWorld, this.physicsWorld );
+			.onChange((enabled) => {
+				if (enabled) {
+					this.cannonDebugRenderer = new CannonDebugRenderer(this.graphicsWorld, this.physicsWorld);
 				}
-				else
-				{
+				else {
 					this.cannonDebugRenderer.clearMeshes();
 					this.cannonDebugRenderer = undefined;
 				}
 
-				scope.characters.forEach((char) =>
-				{
+				scope.characters.forEach((char) => {
 					char.raycastBox.visible = enabled;
 				});
 			});
 		settingsFolder.add(this.params, 'Debug_FPS')
-			.onChange((enabled) =>
-			{
+			.onChange((enabled) => {
 				UIManager.setFPSVisible(enabled);
 			});
 
