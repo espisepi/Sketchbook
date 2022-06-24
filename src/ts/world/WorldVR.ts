@@ -15,7 +15,6 @@ export class WorldVR extends World{
     constructor(worldScenePath?: any) {
         super(worldScenePath);
         this.initVR();
-        this.initControllers();
     }
 
     private initVR(): void {
@@ -23,32 +22,18 @@ export class WorldVR extends World{
         document.body.appendChild( VRButton.createButton( this.renderer ) );
         this.renderer.xr.enabled = true;
         this.renderer.xr.setReferenceSpaceType( 'local' );
-
-    }
-
-    private initControllers(): void {
-        // const controllerModelFactory = new XRControllerModelFactory();
-
         const intervalId = setInterval(()=>{
             if(super.getCharacters()[0]) {
-                console.log("encontrado!")
-                console.log(super.getCharacters()[0])
-                super.getCharacters()[0].add(super.getCamera());
+                console.log("encontrado!");
+                console.log(super.getCharacters()[0]);
+                const camera = super.getCamera();
+                const character = super.getCharacters()[0];
+                character.add(camera);
                 clearInterval(intervalId);
             }
 
         },500);
-        
 
-
-
-
-        // var user = new THREE.Group();
-        // user.position.set(0,0,0);
-        // camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        // camera.position.y = 1.6;
-        // user.add( camera );
-        // scene.add(user);
     }
 
     // @Override
@@ -66,13 +51,36 @@ export class WorldVR extends World{
             world.render( world );
         } );
 
+		// Getting timeStep
+		let unscaledTimeStep = (this.requestDelta + this.renderDelta + this.logicDelta) ;
+		let timeStep = unscaledTimeStep * this.params.Time_Scale;
+		timeStep = Math.min(timeStep, 1 / 30);    // min 30 fps
+
+		// Logic
+		world.update(timeStep, unscaledTimeStep);
+
+        // Update vr
         if(this.characters.length != 0) {
             const renderer = this.renderer;
             const character = this.characters[0];
             const baseReferenceSpace = renderer.xr.getReferenceSpace();
             if(renderer.xr.isPresenting){
-                this.camera.position.set(character.position.x,character.position.y,character.position.z);
-                this.camera.updateMatrix();
+                // console.log(thisu.camera.quaternion)
+                // this.camera.rotation.set(0,this.requestDelta,0);
+                // const camera = this.camera;
+                // this.characters[0].children[1].rotation.y = -this.characters[0].children[1].rotation.y
+                
+                // camera.rotation.set(camera.rotation.x, -camera.rotation.y, camera.rotation.z);
+                // .getWorldQuaternion 
+                // .setRotationFromQuaternion ( q : Quaternion ) 
+                // const quaternion = character.getWorldQuaternion(new THREE.Quaternion());
+                // camera.setRotationFromQuaternion(quaternion);
+
+                // this.camera.matrix=(this.characters[0].matrix)
+
+                // this.camera.quaternion.set(character.quaternion.x,character.quaternion.y,character.quaternion.z, character.quaternion.w);
+                // this.camera.position.set(character.position.x,character.position.y,character.position.z);
+                // this.camera.updateMatrix();
                 // console.log(this.camera.position);
                 // const cameras = renderer.xr.getCamera(this.camera);
                 // cameras.position.set(character.position.x,character.position.y,character.position.z);
@@ -87,14 +95,6 @@ export class WorldVR extends World{
             // renderer.xr.setReferenceSpace( teleportSpaceOffset );
 
         }
-
-		// Getting timeStep
-		let unscaledTimeStep = (this.requestDelta + this.renderDelta + this.logicDelta) ;
-		let timeStep = unscaledTimeStep * this.params.Time_Scale;
-		timeStep = Math.min(timeStep, 1 / 30);    // min 30 fps
-
-		// Logic
-		world.update(timeStep, unscaledTimeStep);
 
 		// Measuring logic time
 		this.logicDelta = this.clock.getDelta();
@@ -116,6 +116,7 @@ export class WorldVR extends World{
 
 		// Measuring render time
 		this.renderDelta = this.clock.getDelta();
+        
 	}
 
 
