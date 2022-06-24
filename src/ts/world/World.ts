@@ -416,12 +416,15 @@ export class World {
 				// 	}
 				// }
 
+		
+
 				if (child.userData.hasOwnProperty('data')) {
 					if (child.userData.data === 'physics') {
 						if (child.userData.hasOwnProperty('type')) {
 							// Convex doesn't work! Stick to boxes!
+							let phys;
 							if (child.userData.type === 'box') {
-								let phys = new BoxCollider({ size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z) });
+								phys = new BoxCollider({ size: new THREE.Vector3(child.scale.x, child.scale.y, child.scale.z) });
 								phys.body.position.copy(Utils.cannonVector(child.position));
 								phys.body.quaternion.copy(Utils.cannonQuat(child.quaternion));
 								phys.body.computeAABB();
@@ -440,14 +443,14 @@ export class World {
 								// console.log(invertedNormals)
 								// child.geometry.attributes.normal.array = invertedNormals;
 
-								let phys = new TrimeshCollider(child, {});
+								phys = new TrimeshCollider(child, {});
 								this.physicsWorld.addBody(phys.body);
 								
-								this.graphicsWorld.add(phys.mesh);
+								// this.graphicsWorld.add(phys.mesh);
 
 							}
 
-							child.visible = false;
+							child.visible = true;
 						}
 					}
 
@@ -820,7 +823,7 @@ export class World {
 			Time_Scale: 1,
 			Shadows: true,
 			FXAA: true,
-			Debug_Physics: false,
+			Debug_Physics: true,
 			Debug_FPS: false,
 			Sun_Elevation: 50,
 			Sun_Rotation: 145,

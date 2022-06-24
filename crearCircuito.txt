@@ -1,0 +1,11 @@
+========= TUTORIAL ====================
+
+1 - Creamos el suelo del circuito a base de cubos alargados (con custom attribute physic)
+2 - Texturizamos todos los cubos del suelo con el uv mapping correcto
+3 - Replicamos los cubos texturizados para hacer paredes y techo
+
+======== AVISOS ====================
+
+ - NUNCA Realizar ctrl + a -> apply all transforms PARA LAS FISICAS ( LOS MODELOS 3D con custom attribute PHYSICS)
+
+==================
