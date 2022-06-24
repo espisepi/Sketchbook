@@ -15,6 +15,7 @@ export class Driving extends CharacterStateBase
 		super(character);
 
 		this.seat = seat;
+		this.name = "Driving";
 		this.canFindVehiclesToEnter = false;
 		this.playAnimation('driving', 0.1);
 

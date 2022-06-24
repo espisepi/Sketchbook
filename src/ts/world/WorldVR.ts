@@ -2,6 +2,11 @@ import { World } from "./World";
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 import * as THREE from 'three';
+import { ThirdPersonCamera } from "./ThirdPersonCamera";
+
+import { Driving } from '../characters/character_states/vehicles/Driving';
+import { ICharacterState } from '../interfaces/ICharacterState';
+
 
 
 declare interface XRRigidTransform {
@@ -11,6 +16,9 @@ declare interface XRRigidTransform {
   }
 
 export class WorldVR extends World{
+
+    public isfirstTime: boolean = true;
+    public lastSavedCharacterState: ICharacterState;
 
     constructor(worldScenePath?: any) {
         super(worldScenePath);
@@ -22,6 +30,7 @@ export class WorldVR extends World{
         document.body.appendChild( VRButton.createButton( this.renderer ) );
         this.renderer.xr.enabled = true;
         this.renderer.xr.setReferenceSpaceType( 'local' );
+        // this.renderer.xr.cameraAutoUpdate = false;
         const intervalId = setInterval(()=>{
             if(super.getCharacters()[0]) {
                 console.log("encontrado!");
@@ -62,10 +71,40 @@ export class WorldVR extends World{
         // Update vr
         if(this.characters.length != 0) {
             const renderer = this.renderer;
+            const camera = this.camera;
             const character = this.characters[0];
             const baseReferenceSpace = renderer.xr.getReferenceSpace();
             if(renderer.xr.isPresenting){
-                // console.log(thisu.camera.quaternion)
+                // this.camera.rotateOnWorldAxis(new THREE.Vector3(1,1,1), 1);
+                // this.camera.rotateY(2);
+                // character.rotateY(3.14)
+                // if( !(character.charState instanceof Driving) ) {
+                //     character.rotateY(3.14)
+                // } else {
+
+                // }
+                // console.log(character.rotation)
+                // console.log(camera.rotation);
+                if( !(character.charState instanceof Driving) ) {
+                    character.rotateY(3.14)
+                } else {
+                    if(this.isfirstTime) {
+                        character.rotation.set(character.rotation.x,character.rotation.y + 3.14,character.rotation.z);
+                        this.lastSavedCharacterState = character.charState;
+                        this.isfirstTime = false;
+                    } else {
+                        if( character.charState.name !== this.lastSavedCharacterState.name ) {
+                            this.isfirstTime = true;
+                        }
+                    }
+                }
+
+
+                
+                // this.camera.updateMatrix();
+                // this.camera.updateMatrixWorld()
+                // this.camera.updateWorldMatrix(false,false);
+                // console.log(this.camera.quaternion)
                 // this.camera.rotation.set(0,this.requestDelta,0);
                 // const camera = this.camera;
                 // this.characters[0].children[1].rotation.y = -this.characters[0].children[1].rotation.y
