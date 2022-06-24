@@ -27,10 +27,19 @@ export class WorldVR extends World{
     }
 
     private initControllers(): void {
-        const controllerModelFactory = new XRControllerModelFactory();
-        console.log(super.getCamera());
-        console.log(super.getCharacters())
+        // const controllerModelFactory = new XRControllerModelFactory();
+
+        const intervalId = setInterval(()=>{
+            if(super.getCharacters()[0]) {
+                console.log("encontrado!")
+                console.log(super.getCharacters()[0])
+                super.getCharacters()[0].add(super.getCamera());
+                clearInterval(intervalId);
+            }
+
+        },500);
         
+
 
 
 
