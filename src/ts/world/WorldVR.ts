@@ -99,7 +99,9 @@ export class WorldVR extends World{
                     }
                 }
 
-
+                // Utilizar botones oculus para manejar al jugador y los vehiculos (mapear los controles del mando en las teclas del ordenador, al igual que hago con la ui para mobile)
+                // https://discourse.threejs.org/t/oculus-quest-2-y-x-b-a-menu-touch-input-data-from-buttons/21905
+                //https://github.com/gkjohnson/threejs-sandbox
                 
                 // this.camera.updateMatrix();
                 // this.camera.updateMatrixWorld()
