@@ -81,7 +81,7 @@ export class WorldCatedral extends World {
             new THREE.Vector3( 30, 0, 30 )
         ] );
         
-        const points: THREE.Vector3[] = curve.getPoints( 50 );
+        const points: THREE.Vector3[] = curve.getPoints( 20 );
 
         for(let i = 0 ; i < points.length ; i++) {
 
@@ -89,9 +89,9 @@ export class WorldCatedral extends World {
             
             // Create mesh floor from curve
             const meshFloorSize = {
-                x:5,
-                y:0.1,
-                z:1
+                x:10,
+                y:0.2,
+                z:5
             };
             const mesh = new THREE.Mesh(
                 new THREE.BoxBufferGeometry(meshFloorSize.x,meshFloorSize.y, meshFloorSize.z),
@@ -106,9 +106,9 @@ export class WorldCatedral extends World {
 
             // Creamos cubos de paredes a partir de mesh floor
             const meshWallSize = {
-                x:1,
+                x:0.5,
                 y:1,
-                z:1
+                z:2
             };
             const meshWall = new THREE.Mesh(
                 new THREE.BoxBufferGeometry(meshWallSize.x,meshWallSize.y, meshWallSize.z),
@@ -130,7 +130,7 @@ export class WorldCatedral extends World {
             meshRight.updateMatrix();
 
             // Creamos Floor physics
-            const physFloor = new BoxCollider({ size: new THREE.Vector3(meshFloorSize.x, meshFloorSize.y, meshFloorSize.z) });
+            const physFloor = new BoxCollider({ size: new THREE.Vector3(meshFloorSize.x/2, meshFloorSize.y/2, meshFloorSize.z/2) });
             physFloor.body.position.copy(Utils.cannonVector(mesh.position));
             physFloor.body.quaternion.copy(Utils.cannonQuat(mesh.quaternion));
             physFloor.body.computeAABB();
@@ -140,7 +140,7 @@ export class WorldCatedral extends World {
             this.physicsWorld.addBody(physFloor.body);
             
             // Creamos Wall Left physics
-            const physWallLeft = new BoxCollider({ size: new THREE.Vector3(meshWallSize.x, meshWallSize.y, meshWallSize.z) });
+            const physWallLeft = new BoxCollider({ size: new THREE.Vector3(meshWallSize.x/2, meshWallSize.y/2, meshWallSize.z/2) });
             physWallLeft.body.position.copy(Utils.cannonVector(meshLeft.position));
             physWallLeft.body.quaternion.copy(Utils.cannonQuat(meshLeft.quaternion));
             physWallLeft.body.computeAABB();
@@ -150,7 +150,7 @@ export class WorldCatedral extends World {
             this.physicsWorld.addBody(physWallLeft.body);
 
             // Creamos Wall Right physics
-            const physWallRight = new BoxCollider({ size: new THREE.Vector3(meshWallSize.x, meshWallSize.y, meshWallSize.z) });
+            const physWallRight = new BoxCollider({ size: new THREE.Vector3(meshWallSize.x/2, meshWallSize.y/2, meshWallSize.z/2) });
             physWallRight.body.position.copy(Utils.cannonVector(meshRight.position));
             physWallRight.body.quaternion.copy(Utils.cannonQuat(meshRight.quaternion));
             physWallRight.body.computeAABB();
