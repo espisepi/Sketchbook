@@ -51,13 +51,14 @@
     height: 45px;
     width: 45px;
     border-radius: 50%;
-    background-color: rgb(23, 23, 23);
+    /* background-color se configura desde js cuando comienza la partida */
+    background-color: rgb(63, 63, 63);
     opacity: 0.85;
 }
 
-.controls-car-ui input:hover {
+/* .controls-car-ui input:hover {
     background-color: rgb(147, 147, 147);
-}
+} */
 
 .up-arrow {
     transform: rotate(-90deg);

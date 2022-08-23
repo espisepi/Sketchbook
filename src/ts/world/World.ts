@@ -565,45 +565,58 @@ export class World {
 		// 	console.log(event.code);
 		// });
 
+
+		const backgroundColor = "rgb(63, 63, 63)";
+		const backgroundColorHover = "rgb(147, 147, 147)";
+
 		const leftArrow = document.getElementById("left-arrow");
 		leftArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			leftArrow.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
 		});
 		leftArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			leftArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
 		});
 		leftArrow.addEventListener('pointerout', (evt) => {
 			evt.preventDefault();
+			leftArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
 		});
 
 		const rightArrow = document.getElementById("right-arrow");
 		rightArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			rightArrow.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
 		});
 		rightArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			rightArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 		rightArrow.addEventListener('pointerout', (evt) => {
 			evt.preventDefault();
+			rightArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 
 		const upArrow = document.getElementById("up-arrow");
 		upArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			upArrow.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
 		});
 		upArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			upArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
 		});
 		upArrow.addEventListener('pointerout', (evt) => {
 			evt.preventDefault();
+			upArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
 		});
 
@@ -611,96 +624,119 @@ export class World {
 		const downArrow = document.getElementById("down-arrow");
 		downArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			downArrow.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
 		});
 		downArrow.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			downArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
 		});
 		downArrow.addEventListener('pointerout', (evt) => {
 			evt.preventDefault();
+			downArrow.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
 		});
 
 		const handBrake = document.getElementById("hand-brake");
 		handBrake.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			handBrake.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
 		});
 		handBrake.addEventListener("pointerup", (evt) => {
+			evt.preventDefault();
+			handBrake.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
 		});
 		handBrake.addEventListener("pointerout", (evt) => {
+			evt.preventDefault();
+			handBrake.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
 		});
 
 		const enterVehicle = document.getElementById("enter-vehicle");
 		enterVehicle.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			enterVehicle.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
 		});
 		enterVehicle.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			enterVehicle.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
 		});
 		enterVehicle.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
+			enterVehicle.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
 		});
 
 		const magnifyingGlass = document.getElementById("magnifying-glass");
 		magnifyingGlass.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			magnifyingGlass.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
 		});
 		magnifyingGlass.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			magnifyingGlass.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
 		magnifyingGlass.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
+			magnifyingGlass.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
 		});
 
 		const leftPlane = document.getElementById("left-plane");
 		leftPlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			leftPlane.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'q', code: 'KeyQ' }));
 		});
 		leftPlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			leftPlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
 		});
 		leftPlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
+			leftPlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
 		});
 
 		const rightPlane = document.getElementById("right-plane");
 		rightPlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			rightPlane.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', code: 'KeyE' }));
 		});
 		rightPlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			rightPlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
 		});
 		rightPlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
+			rightPlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
 		});
 
 		const enginePlane = document.getElementById("engine-plane");
 		enginePlane.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
+			enginePlane.style.backgroundColor = backgroundColorHover;
 			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
 		});
 		enginePlane.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
+			enginePlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
 		enginePlane.addEventListener("pointerout", (evt) => {
 			evt.preventDefault();
+			enginePlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
 
