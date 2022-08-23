@@ -46,42 +46,56 @@ export class WorldCatedral extends World {
         // this.graphicsWorld.add(planeHigh);
 
         // Mover la posicion de todos los vehiculos cerca del jugador, para ello espero hasta encontrar todos los vehiculos
-        const refreshIntervalId = setInterval(()=>{
-            if(this.vehicles.length >= 6 && this.characters.length != 0) {
-                // console.log('Encontrados vehiculos para cambiarle la posicion!');
-                clearInterval(refreshIntervalId);
-                this.vehicles.forEach( (vehicle, i) => {
-                    // const vehicleInScene = this.graphicsWorld.getObjectById(vehicle.id);
-                    // console.log(vehicleInScene);
-                    // vehicleInScene.position.set(5,5,5);
-                    // console.log(vehicleInScene.position);
-                    // console.log(vehicleInScene);
-                    // vehicle.collision.position.set(60,-1,-50 + (5*i));
-                    vehicle.collision.position.set(10,10,0 + (5*i));
+        // const refreshIntervalId = setInterval(()=>{
+        //     if(this.vehicles.length >= 6 && this.characters.length != 0) {
+        //         // console.log('Encontrados vehiculos para cambiarle la posicion!');
+        //         clearInterval(refreshIntervalId);
+        //         this.vehicles.forEach( (vehicle, i) => {
+        //             // const vehicleInScene = this.graphicsWorld.getObjectById(vehicle.id);
+        //             // console.log(vehicleInScene);
+        //             // vehicleInScene.position.set(5,5,5);
+        //             // console.log(vehicleInScene.position);
+        //             // console.log(vehicleInScene);
+        //             // vehicle.collision.position.set(60,-1,-50 + (5*i));
+        //             vehicle.collision.position.set(10,10,0 + (5*i));
 
-                })
-                // console.log(this.characters[0]);
-                this.characters[0].characterCapsule.body.position.set(20,10,0);
-            }
-        }, 500);
+        //         })
+        //         // console.log(this.characters[0]);
+        //         this.characters[0].characterCapsule.body.position.set(20,10,0);
+        //     }
+        // }, 500);
 
+        this.createFloorPhysics();
 
         // Pondremos un circuito de curva con physics collider ( a base de cubos en las positions de curva catmullRoll)
         this.createCurve();
 
     }
 
+    private createFloorPhysics() : void {
+        const physFloor = new BoxCollider({ size: new THREE.Vector3(10000, 1, 10000) });
+        physFloor.body.position.copy(Utils.cannonVector(new THREE.Vector3(0,-1,0)));
+        physFloor.body.quaternion.copy(Utils.cannonQuat(new THREE.Quaternion()));
+        physFloor.body.computeAABB();
+        this.physicsWorld.addBody(physFloor.body);
+    }
+
     private createCurve() : void {
+
+        const circleWidth = 50;
+        const circleHeight = 50;
+        const numberPoints = 30;
         
         const curve = new THREE.CatmullRomCurve3( [
-            new THREE.Vector3( 0, 0, 0 ),
-            new THREE.Vector3( 20, 0, 0 ),
-            new THREE.Vector3( 20, 0, 20 ),
-            new THREE.Vector3( 20, 0, 30 ),
-            new THREE.Vector3( 30, 0, 30 )
+            new THREE.Vector3( circleWidth/2, 0, 0 ),
+            new THREE.Vector3( 0, 0, circleHeight/2 ),
+            new THREE.Vector3( -circleWidth/2, 0, 0 ),
+            new THREE.Vector3( 0, 0, -circleHeight/2 ),
+            new THREE.Vector3( circleWidth/2, 0, 0 )
         ] );
+
         
-        const points: THREE.Vector3[] = curve.getPoints( 20 );
+        const points: THREE.Vector3[] = curve.getPoints( numberPoints );
 
         for(let i = 0 ; i < points.length ; i++) {
 
@@ -101,7 +115,7 @@ export class WorldCatedral extends World {
             this.graphicsWorld.add(mesh);
 
             // Orientamos todos los cubos hacia su siguiente cubo
-            const nextPoint : THREE.Vector3 = i >= points.length - 1 ? points[0] : points[i + 1];
+            const nextPoint : THREE.Vector3 = i >= points.length - 1 ? points[i] : points[i + 1];
             mesh.lookAt(nextPoint);
 
             // Creamos cubos de paredes a partir de mesh floor
@@ -167,7 +181,7 @@ export class WorldCatedral extends World {
         const curveObject = new THREE.Line( geometry, material );
         curveObject.scale.set(10,10,10);
         this.graphicsWorld.add(curveObject);
-        console.log("oye")
+
     }
 
     private updateInternal() {
