@@ -46,7 +46,7 @@
     flex-wrap: wrap;
 }
 
-.controls-car-ui img {
+.controls-car-ui input {
     padding: 20px;
     height: 45px;
     width: 45px;
@@ -55,7 +55,7 @@
     opacity: 0.85;
 }
 
-.controls-car-ui img:hover {
+.controls-car-ui input:hover {
     background-color: rgb(147, 147, 147);
 }
 
