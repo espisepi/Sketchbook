@@ -89,7 +89,7 @@ export class WorldCatedral extends World {
         const curve = new THREE.CatmullRomCurve3( [
             new THREE.Vector3( circleWidth/2, 0, 0 ),
             new THREE.Vector3( 0, 0, circleHeight/2 ),
-            new THREE.Vector3( -circleWidth/2, 0, 0 ),
+            new THREE.Vector3( -circleWidth/2, 2, 0 ),
             new THREE.Vector3( 0, 0, -circleHeight/2 ),
             new THREE.Vector3( circleWidth/2, 0, 0 )
         ] );
