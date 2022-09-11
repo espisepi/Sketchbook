@@ -21,39 +21,6 @@ export class SceneOceanOutrun {
 
     }
 
-    private createVideoElement( src = "build/assets/music/070shake.mp4", showVideo = true ) : HTMLVideoElement {
-        const video : HTMLVideoElement = document.createElement('video');
-        video.poster = 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217';
-        video.autoplay = true;
-        video.controls = true;
-        video.muted = false;
-        video.height = 240; // 👈️ in px
-        video.width = 320; // 👈️ in px
-
-        video.src = src;
-
-        // if (video.canPlayType('video/mp4')) {
-        // console.log('set src to mp4 video');
-
-        // video.src = 'my-video.mp4'
-        // } else if (video.canPlayType('video/ogg')) {
-        // console.log('set src to ogg video');
-
-        // video.src = 'my-video.ogg'
-        // } else {
-        // console.log('provide link to user');
-        // }
-
-        if(showVideo) {
-            // const box = document.getElementById('box');
-            // box.appendChild(video);
-            document.body.appendChild(video);
-        }
-
-
-        return video;
-    }
-
     private createCurve() : void {
 
         const videoElement: HTMLVideoElement = this.createVideoElement();
@@ -86,16 +53,38 @@ export class SceneOceanOutrun {
             new THREE.BoxBufferGeometry(meshWallSize.x,meshWallSize.y, meshWallSize.z),
             new THREE.MeshBasicMaterial({ map: videoTexture })
         );
-        
 
-        const curve = new THREE.CatmullRomCurve3( [
-            new THREE.Vector3( circleWidth/2, 0, 0 ),
-            new THREE.Vector3( 0, 0, circleHeight/2 ),
-            new THREE.Vector3( -circleWidth/2, 2, 0 ),
-            new THREE.Vector3( 0, 0, -circleHeight/2 ),
-            // new THREE.Vector3( circleWidth/2, 0, 0 )
-            new THREE.Vector3( 10, 0, 10 ),
-        ] );
+        const curvePoints = [
+            [ circleWidth/2, 0, 0 ],
+            [ 0, 0, circleHeight/2 ],
+            [ -circleWidth/2, 2, 0 ],
+            [ 0, 0, -circleHeight/2 ],
+            // [ circleWidth/2, 0, 0 ],
+            [ 10, 0, 10 ]
+        ];
+
+
+        this.createCurveInternal({
+            curvePoints,
+            numberPoints,
+            meshFloor,
+            meshFloorSize,
+            meshWall,
+            meshWallSize
+        })
+
+    }
+
+    private createCurveInternal({curvePoints, numberPoints, meshFloor, meshFloorSize, meshWall, meshWallSize}) {
+        const curve = new THREE.CatmullRomCurve3([...curvePoints.map(point=>(new THREE.Vector3(point[0],point[1],point[2])))]);
+        // const curve = new THREE.CatmullRomCurve3( [
+        //     new THREE.Vector3( circleWidth/2, 0, 0 ),
+        //     new THREE.Vector3( 0, 0, circleHeight/2 ),
+        //     new THREE.Vector3( -circleWidth/2, 2, 0 ),
+        //     new THREE.Vector3( 0, 0, -circleHeight/2 ),
+        //     // new THREE.Vector3( circleWidth/2, 0, 0 )
+        //     new THREE.Vector3( 10, 0, 10 ),
+        // ] );
 
         
         const points: THREE.Vector3[] = curve.getPoints( numberPoints );
@@ -185,8 +174,63 @@ export class SceneOceanOutrun {
         const curveObject = new THREE.Line( geometry, material );
         curveObject.scale.set(10,10,10);
         this.graphicsWorld.add(curveObject);
-
     }
+
+
+    private createVideoElement( src = "build/assets/music/070shake.mp4", showVideo = true ) : HTMLVideoElement {
+        const video : HTMLVideoElement = document.createElement('video');
+        video.poster = 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217';
+        video.autoplay = true;
+        video.controls = true;
+        video.muted = false;
+        video.height = 240; // 👈️ in px
+        video.width = 320; // 👈️ in px
+
+        video.src = src;
+
+        // if (video.canPlayType('video/mp4')) {
+        // console.log('set src to mp4 video');
+
+        // video.src = 'my-video.mp4'
+        // } else if (video.canPlayType('video/ogg')) {
+        // console.log('set src to ogg video');
+
+        // video.src = 'my-video.ogg'
+        // } else {
+        // console.log('provide link to user');
+        // }
+
+        if(showVideo) {
+            // const box = document.getElementById('box');
+            // box.appendChild(video);
+            document.body.appendChild(video);
+        }
+
+
+        return video;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     // private createCurve() : void {
 
