@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { BoxCollider } from '../../physics/colliders/BoxCollider';
 import * as Utils from '../../core/FunctionLibrary';
+import { SierPinsky } from './SierPinsky';
 
 
 export class SceneOceanOutrun {
@@ -14,17 +15,20 @@ export class SceneOceanOutrun {
         this.graphicsWorld = graphicsWorld;
         this.physicsWorld = physicsWorld;
 
-        this.createCurve();
+        const videoElement: HTMLVideoElement = this.createVideoElement();
+        const videoTexture = new THREE.VideoTexture( videoElement );
+
+        this.createCurve(videoTexture);
+        const sierpinsky = new SierPinsky(graphicsWorld, videoTexture);
 
         console.log("HOLI");
 
 
     }
 
-    private createCurve() : void {
+    private createCurve(videoTexture) : void {
 
-        const videoElement: HTMLVideoElement = this.createVideoElement();
-        const videoTexture = new THREE.VideoTexture( videoElement );
+    
 
 
         const circleWidth = 50;
@@ -230,7 +234,7 @@ export class SceneOceanOutrun {
 
 
 
-    
+
 
     // private createCurve() : void {
 
