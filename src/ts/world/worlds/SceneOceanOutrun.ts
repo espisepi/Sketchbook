@@ -19,7 +19,7 @@ export class SceneOceanOutrun {
         const videoTexture = new THREE.VideoTexture( videoElement );
 
         this.createCurve(videoTexture);
-        const sierpinsky = new SierPinsky(graphicsWorld, videoTexture);
+        // const sierpinsky = new SierPinsky(graphicsWorld, videoTexture);
 
         console.log("HOLI");
 
@@ -31,9 +31,28 @@ export class SceneOceanOutrun {
     
 
 
-        const circleWidth = 50;
-        const circleHeight = 50;
+        // const circleWidth = 50;
+        // const circleHeight = 50;
         const numberPoints = 40;
+
+        // Created curve
+        const MAX_POINT = 10;
+        const DISTANCIA = 20;
+        const curvePoints = [];
+        let x,y,z;
+        for( let i = 0; i < MAX_POINT ; i++ ) {
+            x = 0;
+            y = 0;
+            if(i != 0) {
+                z = curvePoints[i-1][2] + DISTANCIA;
+                // y = 10 * Math.sin(i);
+            } else {
+                z = i;
+            }
+            curvePoints.push([x,y,z]);
+        }
+
+
 
         // physics floor box size
         const meshFloorSize = {
@@ -58,14 +77,16 @@ export class SceneOceanOutrun {
             new THREE.MeshBasicMaterial({ map: videoTexture })
         );
 
-        const curvePoints = [
-            [ circleWidth/2, 0, 0 ],
-            [ 0, 0, circleHeight/2 ],
-            [ -circleWidth/2, 2, 0 ],
-            [ 0, 0, -circleHeight/2 ],
-            // [ circleWidth/2, 0, 0 ],
-            [ 10, 0, 10 ]
-        ];
+        // const curvePoints = [
+        //     [ circleWidth/2, 0, 0 ],
+        //     [ 0, 0, circleHeight/2 ],
+        //     [ -circleWidth/2, 2, 0 ],
+        //     [ 0, 0, -circleHeight/2 ],
+        //     // [ circleWidth/2, 0, 0 ],
+        //     [ 10, 0, 10 ]
+        // ];
+
+
 
 
         this.createCurveInternal({
