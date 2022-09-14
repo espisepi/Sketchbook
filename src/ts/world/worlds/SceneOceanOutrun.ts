@@ -43,9 +43,11 @@ export class SceneOceanOutrun {
         for( let i = 0; i < MAX_POINT ; i++ ) {
             x = 0;
             y = 0;
+            z = 0;
             if(i != 0) {
                 z = curvePoints[i-1][2] + DISTANCIA;
                 // y = 10 * Math.sin(i);
+                x = 10 * Math.sin(i) + DISTANCIA;
             } else {
                 z = i;
             }
