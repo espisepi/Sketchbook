@@ -3,11 +3,21 @@ import { BoxCollider } from '../../physics/colliders/BoxCollider';
 import * as Utils from '../../core/FunctionLibrary';
 import { SierPinsky } from './SierPinsky';
 
+import { Water } from './Water';
 
-export class SceneOceanOutrun {
+import { IUpdatable } from '../../interfaces/IUpdatable';
+
+
+
+export class SceneOceanOutrun implements IUpdatable  {
+
+    public updateOrder: number = 5;;
+
 
     public graphicsWorld: THREE.Scene;
 	public physicsWorld: CANNON.World;
+
+    public water: Water;
 
 
     constructor(graphicsWorld, physicsWorld) {
@@ -19,25 +29,32 @@ export class SceneOceanOutrun {
         const videoTexture = new THREE.VideoTexture( videoElement );
 
         this.createCurve(videoTexture);
+
         // const sierpinsky = new SierPinsky(graphicsWorld, videoTexture);
+        this.water = new Water(graphicsWorld, new THREE.Vector3(0,-9,0));
 
         console.log("HOLI");
 
 
     }
 
+    // @Override
+    update(timestep: number, unscaledTimeStep: number): void {
+        if(this.water) {
+            this.water.update(timestep, unscaledTimeStep);
+        }
+    }
+
     private createCurve(videoTexture) : void {
 
     
-
-
-        // const circleWidth = 50;
-        // const circleHeight = 50;
-        const numberPoints = 40;
-
         // Created curve
-        const MAX_POINT = 10;
-        const DISTANCIA = 20;
+        const numberPoints = 60;
+        const MAX_POINT = 100;
+        const DISTANCIA = 5;
+        const ALTURA = 0;
+
+
         const curvePoints = [];
         let x,y,z;
         for( let i = 0; i < MAX_POINT ; i++ ) {
@@ -46,8 +63,8 @@ export class SceneOceanOutrun {
             z = 0;
             if(i != 0) {
                 z = curvePoints[i-1][2] + DISTANCIA;
-                // y = 10 * Math.sin(i);
-                x = 10 * Math.sin(i) + DISTANCIA;
+                y = ALTURA * Math.sin(i);
+                x = -10 * Math.sin(i * 0.1) + DISTANCIA;
             } else {
                 z = i;
             }
@@ -60,7 +77,7 @@ export class SceneOceanOutrun {
         const meshFloorSize = {
             x:10,
             y:0.2,
-            z:5
+            z:15
         };
         // graphics floor mesh
         const meshFloor = new THREE.Mesh(
@@ -71,7 +88,7 @@ export class SceneOceanOutrun {
         const meshWallSize = {
             x:0.5,
             y:10,
-            z:4
+            z:8
         };
         // graphics wall mesh
         const meshWall = new THREE.Mesh(
@@ -195,12 +212,12 @@ export class SceneOceanOutrun {
 
         }
 
-        const geometry = new THREE.BufferGeometry().setFromPoints( points );
-        const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
-        // Create the final object to add to the scene
-        const curveObject = new THREE.Line( geometry, material );
-        curveObject.scale.set(10,10,10);
-        this.graphicsWorld.add(curveObject);
+        // Create line object to watch curve
+        // const geometry = new THREE.BufferGeometry().setFromPoints( points );
+        // const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+        // const curveObject = new THREE.Line( geometry, material );
+        // curveObject.scale.set(10,10,10);
+        // this.graphicsWorld.add(curveObject);
     }
 
 

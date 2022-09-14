@@ -6,6 +6,8 @@ import { BoxCollider } from '../../physics/colliders/BoxCollider';
 import * as Utils from '../../core/FunctionLibrary';
 import { SceneOceanOutrun } from "./SceneOceanOutrun";
 
+import { IUpdatable } from '../../interfaces/IUpdatable';
+
 
 
 
@@ -72,6 +74,7 @@ export class WorldCatedral extends World {
         //this.createCurve();
         //this.createCurveInstancedMesh();
         const sceneOceanOutrun = new SceneOceanOutrun(this.graphicsWorld, this.physicsWorld);
+        super.registerUpdatable(sceneOceanOutrun);
 
     }
 
@@ -341,7 +344,9 @@ export class WorldCatedral extends World {
     }
 
 
-    private updateInternal() {
+    private updateInternal(): void {
+
+
 
     }
 
