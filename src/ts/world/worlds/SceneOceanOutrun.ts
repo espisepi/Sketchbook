@@ -7,6 +7,10 @@ import { Water } from './Water';
 
 import { IUpdatable } from '../../interfaces/IUpdatable';
 
+import { XBoxControllerManager } from './XBoxControllerManager';
+
+
+
 
 
 export class SceneOceanOutrun implements IUpdatable  {
@@ -18,6 +22,8 @@ export class SceneOceanOutrun implements IUpdatable  {
 	public physicsWorld: CANNON.World;
 
     public water: Water;
+
+    public xBoxControllerManager: XBoxControllerManager;
 
 
     constructor(graphicsWorld, physicsWorld) {
@@ -35,6 +41,9 @@ export class SceneOceanOutrun implements IUpdatable  {
 
         console.log("HOLI");
 
+        //this.xBoxControllerManager = new XBoxControllerManager();
+
+
 
     }
 
@@ -42,6 +51,9 @@ export class SceneOceanOutrun implements IUpdatable  {
     update(timestep: number, unscaledTimeStep: number): void {
         if(this.water) {
             this.water.update(timestep, unscaledTimeStep);
+        }
+        if(this.xBoxControllerManager) {
+            this.xBoxControllerManager.updateStatus();
         }
     }
 
@@ -221,7 +233,7 @@ export class SceneOceanOutrun implements IUpdatable  {
     }
 
 
-    private createVideoElement( src = "build/assets/music/070shake.mp4", showVideo = true ) : HTMLVideoElement {
+    private createVideoElement( src = "build/assets/music/badbunny.mp4", showVideo = true ) : HTMLVideoElement {
         const video : HTMLVideoElement = document.createElement('video');
         video.poster = 'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg?x11217';
         video.autoplay = true;
