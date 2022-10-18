@@ -73,7 +73,7 @@ export class WorldCatedral extends World {
         // Pondremos un circuito de curva con physics collider ( a base de cubos en las positions de curva catmullRoll)
         //this.createCurve();
         //this.createCurveInstancedMesh();
-        const sceneOceanOutrun = new SceneOceanOutrun(this.graphicsWorld, this.physicsWorld);
+        const sceneOceanOutrun = new SceneOceanOutrun(this);
         super.registerUpdatable(sceneOceanOutrun);
 
     }

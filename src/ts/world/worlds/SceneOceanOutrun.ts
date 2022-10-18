@@ -8,6 +8,7 @@ import { Water } from './Water';
 import { IUpdatable } from '../../interfaces/IUpdatable';
 
 import { XBoxControllerManager } from './XBoxControllerManager';
+import { World } from '../World';
 
 
 
@@ -21,23 +22,32 @@ export class SceneOceanOutrun implements IUpdatable  {
     public graphicsWorld: THREE.Scene;
 	public physicsWorld: CANNON.World;
 
+    public world: World;
+
     public water: Water;
 
     public xBoxControllerManager: XBoxControllerManager;
 
+    public videoTexture: THREE.VideoTexture;
 
-    constructor(graphicsWorld, physicsWorld) {
+    private isVideoTextureInAllObjects: boolean = false;
 
-        this.graphicsWorld = graphicsWorld;
-        this.physicsWorld = physicsWorld;
+
+    constructor(world: World) {
+
+        this.world = world;
+        this.graphicsWorld = world.graphicsWorld;
+        this.physicsWorld = world.physicsWorld;
 
         const videoElement: HTMLVideoElement = this.createVideoElement();
         const videoTexture = new THREE.VideoTexture( videoElement );
 
         this.createCurve(videoTexture);
+        this.videoTexture = videoTexture;
+
 
         // const sierpinsky = new SierPinsky(graphicsWorld, videoTexture);
-        this.water = new Water(graphicsWorld, new THREE.Vector3(0,-9,0));
+        this.water = new Water(this.graphicsWorld, new THREE.Vector3(0,-9,0));
 
         console.log("HOLI");
 
@@ -54,6 +64,30 @@ export class SceneOceanOutrun implements IUpdatable  {
         }
         if(this.xBoxControllerManager) {
             this.xBoxControllerManager.updateStatus();
+        }
+
+        // Add videoTexture to objects
+        if( !this.isVideoTextureInAllObjects &&
+            this.world.characters &&
+            this.world.characters.length != 0 &&
+            this.world.vehicles &&
+            this.world.vehicles.length === 6
+         ) {
+            this.isVideoTextureInAllObjects = true;
+
+            const character = this.world.characters[0];
+            character.materials.forEach(m => {
+                // @ts-ignore: Unreachable code error
+                m.map = this.videoTexture;
+            })
+
+            this.world.vehicles.forEach(vehicle => {
+                vehicle.materials.forEach(m => {
+                    // @ts-ignore: Unreachable code error
+                    m.map = this.videoTexture;
+                });
+            });
+
         }
     }
 
