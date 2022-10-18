@@ -50,7 +50,7 @@ export class Character extends THREE.Object3D implements IWorldEntity
 	public defaultVelocitySimulatorDamping: number = 0.8;
 	public defaultVelocitySimulatorMass: number = 50;
 	public velocitySimulator: VectorSpringSimulator;
-	public moveSpeed: number = 4;
+	public moveSpeed: number = 2;
 	public angularVelocity: number = 0;
 	public orientation: THREE.Vector3 = new THREE.Vector3(0, 0, 1);
 	public orientationTarget: THREE.Vector3 = new THREE.Vector3(0, 0, 1);
