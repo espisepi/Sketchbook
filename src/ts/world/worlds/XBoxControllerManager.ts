@@ -87,6 +87,9 @@ export class XBoxControllerManager {
             this.controllers.forEach((controller, i) => {
                 const d = document.getElementById(`controller${i}`);
                 const buttons = d.getElementsByClassName("button");
+
+                // Boton A
+                // console.log(this.controllers[0].buttons[0].pressed);
             
                 controller.buttons.forEach((button, i) => {
                   const b = buttons[i];
