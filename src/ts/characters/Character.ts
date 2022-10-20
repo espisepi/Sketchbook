@@ -120,6 +120,7 @@ export class Character extends THREE.Object3D implements IWorldEntity
 			'seat_switch': new KeyBinding('KeyX'),
 			'primary': new KeyBinding('Mouse0'),
 			'secondary': new KeyBinding('Mouse1'),
+			'visible': new KeyBinding('KeyV'),
 		};
 
 		// Physics
@@ -283,6 +284,10 @@ export class Character extends THREE.Object3D implements IWorldEntity
 		}
 		else
 		{
+			// Visible character
+			if(code === 'KeyV' && pressed === true) {
+				this.visible = !this.visible;
+			}
 			// Free camera
 			if (code === 'KeyC' && pressed === true && event.shiftKey === true)
 			{
@@ -415,6 +420,7 @@ export class Character extends THREE.Object3D implements IWorldEntity
 		if (this.physicsEnabled) this.springRotation(timeStep);
 		if (this.physicsEnabled) this.rotateModel();
 		if (this.mixer !== undefined) this.mixer.update(timeStep);
+
 
 		// Sync physics/graphics
 		if (this.physicsEnabled)
