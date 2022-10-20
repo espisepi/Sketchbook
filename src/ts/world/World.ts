@@ -81,6 +81,8 @@ export class World {
 	public scenarioGUIFolder: any;
 	public updatables: IUpdatable[] = [];
 
+	public loadingManager: LoadingManager;
+
 	private lastScenarioID: string;
 
 	constructor(worldScenePath?: any) {
@@ -174,8 +176,8 @@ export class World {
 
 		// Load scene if path is supplied
 		if (worldScenePath !== undefined) {
-			let loadingManager = new LoadingManager(this);
-			loadingManager.onFinishedCallback = () => {
+			this.loadingManager = new LoadingManager(this);
+			this.loadingManager.onFinishedCallback = () => {
 				this.update(1, 1);
 				this.setTimeScale(1);
 
@@ -191,8 +193,8 @@ export class World {
 				// });
 				// UIManager.setUserInterfaceVisible(true);
 			};
-			loadingManager.loadGLTF(worldScenePath, (gltf) => {
-				this.loadScene(loadingManager, gltf);
+			this.loadingManager.loadGLTF(worldScenePath, (gltf) => {
+				this.loadScene(this.loadingManager, gltf);
 			}
 			);
 		}

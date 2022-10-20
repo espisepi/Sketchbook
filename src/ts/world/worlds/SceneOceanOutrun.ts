@@ -10,6 +10,9 @@ import { IUpdatable } from '../../interfaces/IUpdatable';
 import { XBoxControllerManager } from './XBoxControllerManager';
 import { World } from '../World';
 
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+
 
 
 
@@ -53,8 +56,51 @@ export class SceneOceanOutrun implements IUpdatable  {
 
         //this.xBoxControllerManager = new XBoxControllerManager();
 
+        this.createMedievalScenario();
+
+        this.changePositionCharactersAndVehicles();
 
 
+    }
+
+    private changePositionCharactersAndVehicles(): void {
+         // Mover la posicion de todos los vehiculos cerca del jugador, para ello espero hasta encontrar todos los vehiculos
+        const refreshIntervalId = setInterval(()=>{
+            if(this.world.vehicles.length >= 6 && this.world.characters.length != 0) {
+                // console.log('Encontrados vehiculos para cambiarle la posicion!');
+                clearInterval(refreshIntervalId);
+                this.world.vehicles.forEach( (vehicle, i) => {
+                    // const vehicleInScene = this.graphicsWorld.getObjectById(vehicle.id);
+                    // console.log(vehicleInScene);
+                    // vehicleInScene.position.set(5,5,5);
+                    // console.log(vehicleInScene.position);
+                    // console.log(vehicleInScene);
+                    // vehicle.collision.position.set(60,-1,-50 + (5*i));
+                    vehicle.collision.position.set(10,10,0 + (5*i));
+                })
+                // console.log(this.characters[0]);
+                this.world.characters[0].characterCapsule.body.position.set(20,10,0);
+            }
+        }, 500);
+    }
+
+    private createMedievalScenario(): void {
+        const loader = new GLTFLoader();
+		loader.load('build/assets/medieval-scene-0.glb',(gltf)=>{
+			const scene = gltf.scene;
+            scene.traverse( (obj) => {
+                // console.log(obj);
+                // @ts-ignore
+                if(obj.material) {
+                 // @ts-ignore
+                obj.material.map = this.videoTexture;    
+                }
+            });
+			scene.scale.set(1,1,1);
+			scene.position.set(0,0,0);
+			this.graphicsWorld.add(scene);
+			console.log(scene);
+		});
     }
 
     // @Override
