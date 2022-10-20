@@ -605,6 +605,23 @@ export class World {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 
+		const visibility = document.getElementById("visibility");
+		visibility.addEventListener("pointerdown", (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColorHover;
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
+		});
+		visibility.addEventListener("pointerup", (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+		});
+		visibility.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+		});
+
 		const upArrow = document.getElementById("up-arrow");
 		upArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();

@@ -54,7 +54,7 @@ export class SceneOceanOutrun implements IUpdatable  {
 
         console.log("HOLI");
 
-        //this.xBoxControllerManager = new XBoxControllerManager();
+        this.xBoxControllerManager = new XBoxControllerManager();
 
         this.createMedievalScenario();
 
