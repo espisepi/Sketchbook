@@ -57,6 +57,7 @@ export class SceneOceanOutrun implements IUpdatable  {
         this.xBoxControllerManager = new XBoxControllerManager();
 
         this.createMedievalScenario();
+        this.createCatedralScenario();
 
         this.changePositionCharactersAndVehicles();
 
@@ -98,6 +99,25 @@ export class SceneOceanOutrun implements IUpdatable  {
             });
 			scene.scale.set(1,1,1);
 			scene.position.set(0,0,0);
+			this.graphicsWorld.add(scene);
+			console.log(scene);
+		});
+    }
+
+    private createCatedralScenario(): void {
+        const loader = new GLTFLoader();
+		loader.load('build/assets/catedral.glb',(gltf)=>{
+			const scene = gltf.scene;
+            scene.traverse( (obj) => {
+                // console.log(obj);
+                // @ts-ignore
+                if(obj.material) {
+                 // @ts-ignore
+                obj.material.map = this.videoTexture;    
+                }
+            });
+			scene.scale.set(1,1,1);
+			scene.position.set(400,-40,0);
 			this.graphicsWorld.add(scene);
 			console.log(scene);
 		});
