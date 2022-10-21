@@ -39,6 +39,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { create as createManagerNipple } from 'nipplejs';
 import { ThirdPersonCamera } from './ThirdPersonCamera';
 
+import { FullScreen } from './worlds/FullScreen';
+
 //TODO: Carrera con escenario catedral, se cambia texturas por texturavideo de cancion naugthy swain a elena con efectos rosa shader
 /** TAREAS POR HACER
  * Hacer web scrapping en un servidor nodejs con puppetee aparte y mediante peticiones realizar compra y ver productos en un supermercado
@@ -210,6 +212,9 @@ export class World {
 		}
 
 		this.render(this);
+
+		// create fullscreen functionality
+		const fullScreen = new FullScreen();
 	}
 
 	// Update
@@ -605,23 +610,6 @@ export class World {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 
-		const visibility: HTMLElement = document.getElementById("visibility");
-		visibility.addEventListener("pointerdown", (evt) => {
-			evt.preventDefault();
-			visibility.style.backgroundColor = backgroundColorHover;
-			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', code: 'KeyB' }));
-		});
-		visibility.addEventListener("pointerup", (evt) => {
-			evt.preventDefault();
-			visibility.style.backgroundColor = backgroundColor;
-			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
-		});
-		visibility.addEventListener('pointerout', (evt) => {
-			evt.preventDefault();
-			visibility.style.backgroundColor = backgroundColor;
-			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
-		});
-
 		const upArrow = document.getElementById("up-arrow");
 		upArrow.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
@@ -758,6 +746,42 @@ export class World {
 			enginePlane.style.backgroundColor = backgroundColor;
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
 		});
+
+		const visibility: HTMLElement = document.getElementById("visibility");
+		visibility.addEventListener("pointerdown", (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColorHover;
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', code: 'KeyB' }));
+		});
+		visibility.addEventListener("pointerup", (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
+		});
+		visibility.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
+			visibility.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
+		});
+
+		const fullScreen: HTMLElement = document.getElementById("fullScreen");
+		fullScreen.addEventListener("pointerdown", (evt) => {
+			evt.preventDefault();
+			fullScreen.style.backgroundColor = backgroundColorHover;
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'KeyEnter' }));
+		});
+		fullScreen.addEventListener("pointerup", (evt) => {
+			evt.preventDefault();
+			fullScreen.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'KeyEnter' }));
+		});
+		fullScreen.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
+			fullScreen.style.backgroundColor = backgroundColor;
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'KeyEnter' }));
+		});
+
+
 
 
 	}
