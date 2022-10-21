@@ -781,6 +781,34 @@ export class World {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', code: 'KeyEnter' }));
 		});
 
+		const hiddenButton: HTMLElement = document.getElementById("hidden-button");
+		const allButtons: HTMLElement = document.getElementsByClassName("controls-car-ui")[0] as HTMLElement;
+		let toggleHiddenButton = true;
+		const defaultStyleTransformHiddenButton = hiddenButton.style.transform;
+		const defaultStyleTransformAllButtons = allButtons.style.transform;
+		hiddenButton.addEventListener("pointerdown", (evt) => {
+			evt.preventDefault();
+			hiddenButton.style.backgroundColor = backgroundColorHover;
+			toggleHiddenButton = !toggleHiddenButton;
+			// allButtons.style.transform= toggleHiddenButton ? "0.0" : "1.0" ;
+			// hiddenButton.style.visibility = "visible";
+			if(toggleHiddenButton) {
+				allButtons.style.transform = "scale(0.05, 0.05)";
+				hiddenButton.style.transform = "scale(30.0, 30.0)" + "translate(0,0)";
+			} else {
+				allButtons.style.transform = defaultStyleTransformAllButtons;
+				hiddenButton.style.transform = defaultStyleTransformHiddenButton;
+			}
+		});
+		hiddenButton.addEventListener("pointerup", (evt) => {
+			evt.preventDefault();
+			hiddenButton.style.backgroundColor = backgroundColor;
+		});
+		hiddenButton.addEventListener('pointerout', (evt) => {
+			evt.preventDefault();
+			hiddenButton.style.backgroundColor = backgroundColor;
+		});
+
 
 
 

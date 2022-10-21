@@ -11,7 +11,6 @@
     user-select: none;
 
     -webkit-touch-callout:none;
-
  }
 
  .non-visible {
@@ -62,6 +61,12 @@
     /* background-color se configura desde js cuando comienza la partida */
     background-color: rgb(63, 63, 63);
     opacity: 0.85;
+
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+
 }
 
 /* .controls-car-ui input:hover {
