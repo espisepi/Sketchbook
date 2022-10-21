@@ -60,8 +60,8 @@ export class SceneOceanOutrun implements IUpdatable  {
 
         this.xBoxControllerManager = new XBoxControllerManager();
 
-        // this.createMedievalScenario();
-        // this.createCatedralScenario();
+        this.createMedievalScenario();
+        this.createCatedralScenario();
 
         this.changePositionCharactersAndVehicles();
 
