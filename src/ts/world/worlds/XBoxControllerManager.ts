@@ -5,6 +5,8 @@ export class XBoxControllerManager {
     public haveEvents: boolean = 'ongamepadconnected' in window;
     public controllers: any = [];
 
+    public enableVibration: boolean = true;
+
 
     constructor() {
         window.addEventListener("gamepadconnected", (e) => this.connecthandler(e), false);
@@ -227,16 +229,19 @@ export class XBoxControllerManager {
         // // Boton R2
         if(controller.buttons[7].pressed) {
           document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
-          try{
-            // Funcion vibratoria
-            controller.vibrationActuator.playEffect('dual-rumble', {
-              startDelay: 0,
-              duration: 200,
-              weakMagnitude: 1.0,
-              strongMagnitude: 1.0,
-            });
-          } catch(e) {
-            console.error("Funcion vibratoria del gamepad no soportada.");
+          if(this.enableVibration) {
+            try{
+              // Funcion vibratoria
+              controller.vibrationActuator.playEffect('dual-rumble', {
+                startDelay: 0,
+                duration: 200,
+                weakMagnitude: 1.0,
+                strongMagnitude: 1.0,
+              });
+            } catch(e) {
+              console.error("Funcion vibratoria del gamepad no soportada.");
+              this.enableVibration = false;
+            }
           }
           
         } else {
