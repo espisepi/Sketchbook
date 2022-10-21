@@ -118,9 +118,9 @@ export class SceneOceanOutrun implements IUpdatable  {
             scene.traverse( (obj) => {
                 // console.log(obj);
                 // @ts-ignore
-                if(obj.material) {
-                 // @ts-ignore
-                obj.material.map = this.videoTexture;    
+                const material = obj.material as THREE.MeshBasicMaterial;
+                if(material) {
+                 material.map = this.videoTexture;
                 }
             });
 			scene.scale.set(1,1,1);
