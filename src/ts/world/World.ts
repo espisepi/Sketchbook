@@ -605,21 +605,21 @@ export class World {
 			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
 		});
 
-		const visibility = document.getElementById("visibility");
+		const visibility: HTMLElement = document.getElementById("visibility");
 		visibility.addEventListener("pointerdown", (evt) => {
 			evt.preventDefault();
 			visibility.style.backgroundColor = backgroundColorHover;
-			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'v', code: 'KeyV' }));
+			document.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', code: 'KeyB' }));
 		});
 		visibility.addEventListener("pointerup", (evt) => {
 			evt.preventDefault();
 			visibility.style.backgroundColor = backgroundColor;
-			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
 		});
 		visibility.addEventListener('pointerout', (evt) => {
 			evt.preventDefault();
 			visibility.style.backgroundColor = backgroundColor;
-			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'v', code: 'KeyV' }));
+			document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
 		});
 
 		const upArrow = document.getElementById("up-arrow");
