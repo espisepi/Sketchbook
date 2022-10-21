@@ -35,6 +35,10 @@ export class SceneOceanOutrun implements IUpdatable  {
 
     private isVideoTextureInAllObjects: boolean = false;
 
+    public catedralScene: THREE.Scene;
+    public medievalScene: THREE.Scene;
+    public rotateMedievalAndCatedralScene: boolean = false;
+
 
     constructor(world: World) {
 
@@ -77,7 +81,8 @@ export class SceneOceanOutrun implements IUpdatable  {
                     // console.log(vehicleInScene.position);
                     // console.log(vehicleInScene);
                     // vehicle.collision.position.set(60,-1,-50 + (5*i));
-                    vehicle.collision.position.set(10,10,0 + (5*i));
+                    // console.log(vehicle)
+                    vehicle.collision.position.set(15,1,0 + (5*i));
                 })
                 // console.log(this.characters[0]);
                 this.world.characters[0].characterCapsule.body.position.set(20,10,0);
@@ -89,6 +94,7 @@ export class SceneOceanOutrun implements IUpdatable  {
         const loader = new GLTFLoader();
 		loader.load('build/assets/medieval-scene-0.glb',(gltf)=>{
 			const scene = gltf.scene;
+            this.medievalScene = scene;
             scene.traverse( (obj) => {
                 // console.log(obj);
                 // @ts-ignore
@@ -108,6 +114,7 @@ export class SceneOceanOutrun implements IUpdatable  {
         const loader = new GLTFLoader();
 		loader.load('build/assets/catedral.glb',(gltf)=>{
 			const scene = gltf.scene;
+            this.catedralScene = scene;
             scene.traverse( (obj) => {
                 // console.log(obj);
                 // @ts-ignore
@@ -130,6 +137,13 @@ export class SceneOceanOutrun implements IUpdatable  {
         }
         if(this.xBoxControllerManager) {
             this.xBoxControllerManager.updateStatus();
+        }
+        if(this.rotateMedievalAndCatedralScene && this.medievalScene && this.catedralScene) {
+            this.medievalScene.rotateY(timestep*0.05);
+            // this.medievalScene.traverse(obj => {
+            //     obj.rotation.y += (timestep * 0.05);
+            // })
+            this.catedralScene.rotateY(timestep*0.05);
         }
 
         // Add videoTexture to objects
