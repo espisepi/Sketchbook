@@ -181,18 +181,106 @@ export class XBoxControllerManager {
           // console.log(controller.axes[2]);
           // // joystick dcha arriba-abajo arriba:-1 abajo:+1
           // console.log(controller.axes[3]);
+          // Funcion vibratoria
+          // controller.vibrationActuator.playEffect('dual-rumble', {
+          //   startDelay: 0,
+          //   duration: 200,
+          //   weakMagnitude: 1.0,
+          //   strongMagnitude: 1.0,
+          // });
 
       }
 
       private mappingControllerInternal(controller : any) : void {
+
         if(!controller) return;
         // console.log(controller.axes[0]);
-        // Pulsar joystick izq izq-dcha izq:-1 dcha:+1
+
+        // Pulsar joystick izq izq:-1
         if(controller.axes[0] >= -1.0 && controller.axes[0] < -0.1) {
           document.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', code: 'KeyA' }));
         } else {
           document.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', code: 'KeyA' }));
         }
+
+        // Pulsar joystick izq dcha dcha:+1
+        if(controller.axes[0] <= 1.0 && controller.axes[0] > 0.1) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', code: 'KeyD' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'd', code: 'KeyD' }));
+        }
+
+        // Pulsar joystick izq arriba:-1
+        if(controller.axes[1] >= -1.0 && controller.axes[1] < -0.1) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'w', code: 'KeyW' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'w', code: 'KeyW' }));
+        }
+
+        // Pulsar joystick izq abajo:1
+        if(controller.axes[1] <= 1.0 && controller.axes[1] > 0.1) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 's', code: 'KeyS' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 's', code: 'KeyS' }));
+        }
+
+        // // Boton R2
+        if(controller.buttons[7].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', code: 'ShiftLeft' }));
+          // Funcion vibratoria
+          controller.vibrationActuator.playEffect('dual-rumble', {
+            startDelay: 0,
+            duration: 200,
+            weakMagnitude: 1.0,
+            strongMagnitude: 1.0,
+          });
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Shift', code: 'ShiftLeft' }));
+        }
+
+        // // Boton A
+        if(controller.buttons[0].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
+        }
+
+        // // Boton L2
+        if(controller.buttons[6].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', code: 'Space' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', code: 'Space' }));
+        }
+
+
+        // // Boton Y
+        if(controller.buttons[3].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF' }));
+        }
+
+         // // Boton L1
+         if(controller.buttons[4].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'q', code: 'KeyQ' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'q', code: 'KeyQ' }));
+        }
+
+        // // Boton R1
+        if(controller.buttons[5].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'e', code: 'KeyE' }));
+        } else {
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'e', code: 'KeyE' }));
+        }
+
+        // // Boton Select
+        // console.log(controller.buttons[8].pressed);
+        if(controller.buttons[8].pressed) {
+          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', code: 'KeyB' }));
+          document.dispatchEvent(new KeyboardEvent('keyup', { key: 'b', code: 'KeyB' }));
+        }
+
       }
       
 }
