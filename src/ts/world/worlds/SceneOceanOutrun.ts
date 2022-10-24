@@ -49,7 +49,7 @@ export class SceneOceanOutrun implements IUpdatable  {
         const videoElement: HTMLVideoElement = this.createVideoElement();
         const videoTexture = new THREE.VideoTexture( videoElement );
 
-        this.createCurve(videoTexture);
+        // this.createCurve(videoTexture);
         this.videoTexture = videoTexture;
 
 
@@ -61,7 +61,7 @@ export class SceneOceanOutrun implements IUpdatable  {
         this.xBoxControllerManager = new XBoxControllerManager();
 
         this.createMedievalScenario();
-        this.createCatedralScenario();
+        // this.createCatedralScenario();
 
         this.changePositionCharactersAndVehicles();
 
@@ -92,7 +92,7 @@ export class SceneOceanOutrun implements IUpdatable  {
 
     private createMedievalScenario(): void {
         const loader = new GLTFLoader();
-		loader.load('build/assets/medieval-scene-0.glb',(gltf)=>{
+		loader.load('build/assets/medieval-scene-1.glb',(gltf)=>{
 			const scene = gltf.scene;
             this.medievalScene = scene;
             scene.traverse( (obj) => {
