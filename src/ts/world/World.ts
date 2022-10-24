@@ -173,6 +173,7 @@ export class World {
 		// Initialization
 		this.inputManager = new InputManager(this, this.renderer.domElement);
 		this.cameraOperator = new CameraOperator(this, this.camera, this.params.Mouse_Sensitivity);
+		this.cameraOperator.followMode = true;
 		this.sky = new Sky(this);
 
 
@@ -234,9 +235,9 @@ export class World {
 		if (this.params.Debug_Physics) this.cannonDebugRenderer.update();
 
 		//espisepi: add thirdpersonCamera to Character
-		if (this.cameraOperator.followMode === false) {
-			this.cameraOperator.followMode = true;
-		}
+		// if (this.cameraOperator.followMode === false) {
+		// 	this.cameraOperator.followMode = true;
+		// }
 		// if(!this.thirdPersonCamera && this.cameraOperator){
 		// 	this.thirdPersonCamera = new ThirdPersonCamera(this.cameraOperator);
 		// }

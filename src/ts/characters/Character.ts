@@ -82,6 +82,9 @@ export class Character extends THREE.Object3D implements IWorldEntity
 	
 	private physicsEnabled: boolean = true;
 
+	public DEFAULT_RADIUS_CAMERA_FAR: number = 1.6;
+	public DEFAULT_RADIUS_CAMERA_NEAR: number = 1.0;
+
 	constructor(gltf: any)
 	{
 		super();
@@ -287,6 +290,8 @@ export class Character extends THREE.Object3D implements IWorldEntity
 			// Visible character
 			if(code === 'KeyB' && pressed === true) {
 				this.visible = !this.visible;
+				// const radius = this.visible ? this.DEFAULT_RADIUS_CAMERA_FAR : this.DEFAULT_RADIUS_CAMERA_NEAR;
+				// this.world.cameraOperator.setRadius(radius, true);
 			}
 			// Free camera
 			if (code === 'KeyC' && pressed === true && event.shiftKey === true)
@@ -450,8 +455,8 @@ export class Character extends THREE.Object3D implements IWorldEntity
 			return;
 		}
 
-		this.world.cameraOperator.setRadius(1.6, true);
-		this.world.cameraOperator.followMode = false;
+		this.world.cameraOperator.setRadius(this.DEFAULT_RADIUS_CAMERA_FAR, true);
+		// this.world.cameraOperator.followMode = false;
 		// this.world.dirLight.target = this;
 
 		this.displayControls();
