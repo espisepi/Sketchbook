@@ -13,9 +13,9 @@ import { IUpdatable } from '../../interfaces/IUpdatable';
 
 export class WorldCatedral extends World {
 
-    constructor(worldScenePath?: any) {
+    constructor(worldScenePath?: any, createFloorPhysics: boolean = true) {
         super(worldScenePath);
-        this.loadVisuals();
+        this.loadVisuals(createFloorPhysics);
     }
 
     //@Override
@@ -24,7 +24,7 @@ export class WorldCatedral extends World {
         this.updateInternal();
     }
 
-    private loadVisuals(): void {
+    private loadVisuals(createFloorPhysics: boolean): void {
 
         // const planeFloor = new THREE.Mesh(
         //     new THREE.PlaneBufferGeometry(500,500,250,250),
@@ -68,13 +68,15 @@ export class WorldCatedral extends World {
         //     }
         // }, 500);
 
-        this.createFloorPhysics();
+        if(createFloorPhysics) {
+            this.createFloorPhysics();
+        }
 
         // Pondremos un circuito de curva con physics collider ( a base de cubos en las positions de curva catmullRoll)
         //this.createCurve();
         //this.createCurveInstancedMesh();
-        const sceneOceanOutrun = new SceneOceanOutrun(this);
-        super.registerUpdatable(sceneOceanOutrun);
+        // const sceneOceanOutrun = new SceneOceanOutrun(this);
+        // super.registerUpdatable(sceneOceanOutrun);
 
     }
 

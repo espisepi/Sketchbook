@@ -65,7 +65,29 @@ export class SceneOceanOutrun implements IUpdatable  {
 
         this.changePositionCharactersAndVehicles();
 
+        this.spawnCharacters();
 
+
+    }
+
+    private spawnCharacters(): void {
+        this.world.clearEntities();
+        const mapSpawners = {
+            cars: [
+                [0,2,0],
+                [2,2,0],
+                [4,2,0]
+            ]
+        };
+        
+        // mapSpawners.cars.forEach((position => {
+        //     const object = new THREE.Object3D();
+        //     object.position.set(position[0],position[1],position[2]);
+        //     this.
+        // }))
+
+        // Coger los object del scenario gltf, añadir mas y volver a ejecutar los launch scenario
+        
     }
 
     private changePositionCharactersAndVehicles(): void {

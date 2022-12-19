@@ -174,7 +174,7 @@ export class World {
 		this.inputManager = new InputManager(this, this.renderer.domElement);
 		this.cameraOperator = new CameraOperator(this, this.camera, this.params.Mouse_Sensitivity);
 		this.cameraOperator.followMode = true;
-		this.sky = new Sky(this);
+		// this.sky = new Sky(this);
 
 
 		// Load scene if path is supplied
